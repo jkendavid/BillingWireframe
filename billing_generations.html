@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+  <style>
+
+    .calculationTable {
+         max-width: 600px;
+        padding: 0;
+        font-size: 12px;
+    }
+    .calculationTable th, .calculationTable td {
+    padding: 5px;
+  }
+  </style>
+  <title>Billing Generation</title>
+</head>
+<body>
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contracts
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="parties.html">Parties</a>
+                    <a class="dropdown-item" href="contracts.html">Contract List</a>
+                    <a class="dropdown-item" href="contract_data.html">Contracts Data</a>
+                    <a class="dropdown-item" href="contract_fieldvalues.html">Contracts Field Values</a>
+                    <a class="dropdown-item" href="contract_templates.html">Contract Templates</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Calculations
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="calculation_template.html">Templates</a>
+                    <a class="dropdown-item" href="template_formulas.html">Template Formulas</a>
+                    <a class="dropdown-item" href="billing_generations.html">Billing Generation</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Variables
+              </a>
+              <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                  <a class="dropdown-item" href="variables.html">Variable List</a>
+                  <a class="dropdown-item" href="variable_units.html">Variable Units</a>
+                  <a class="dropdown-item" href="finance_accounts.html">Finance Accounts</a>
+                  <a class="dropdown-item" href="finance_account_link.html">Finance Accounts Link</a>
+                  <a class="dropdown-item" href="charge_tax_mapping.html">Charge TAX Mapping</a>
+              </div>
+          </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Billing Determinants
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="variable_data_montlyindices.html">Monthly Indices</a>
+                    <a class="dropdown-item" href="variable_data_montlyplantdata.html">Monthly Plant Data</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">         
+            <li class="nav-item">
+                <select class="form-control" id="user" required onchange="handleUserChange()">
+                  <option value="MKTG">MKTG</option>
+                  <option value="MKTGMNGR">MKTGMNGR</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+
+ 
+
+  <h2>Billing Generation</h2>
+
+  <!-- Table -->
+  <table class="table table-bordered" id="dataTable">
+    <thead>
+      <tr>
+        <th>Reference ID</th>
+        <th>Period</th>
+        <th>Contract</th>
+        <th>Rev Num</th>
+        <th>Status</th>
+        <th>Remarks</th>
+        <th>Created By</th>
+        <th>Created Time</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>   
+        <tr><td>52505A62</td><td>2022-12</td><td>PSA-GENCO1-DU01-001</td><td>0</td><td>Draft</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td>
+            <td><button class="btn btn-info btn-sm viewButton" onclick="viewEntry(this)">view calculation</button></td>
+            <td>
+                <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
+                <button class="btn btn-danger btn-sm cancelButton" onclick="cancelEntry(this)">Cancel</button>
+                <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
+                <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <!-- Add New Button -->
+  <button type="button" class="btn btn-primary" id="generateButton" onclick="generateEntry()">
+        Generate
+  </button>
+
+<!-- Add New Modal -->
+  <div class="modal" id="calculationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width:1000px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add/Edit Entry</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <h4>Charge Summary</h4>
+        <table class="table table-bordered calculationTable" style="max-width: 600px;">
+            <thead>
+            <tr>
+                <th>Charge</th>
+                <th>Previous Amount [A]</th>
+                <th>Current Amount [B]</th>
+                <th>Final Amount [B-A]</th>
+            </tr>
+            </thead>
+            <tbody>  
+                <tr><td>Fuel Charge (VATABLE)</td><td></td><td>31005046.8</td><td>31005046.8</td></tr> 
+                <tr><td>Capital Recovery Fee (VATABLE)</td><td></td><td>29766000</td><td>29766000</td></tr> 
+                <tr><td>Fixed O&M Fee (VATABLE)</td><td></td><td>4500000</td><td>4500000</td></tr> 
+                <tr><td>Variable O&M Fee (VATABLE)</td><td></td><td>2265480</td><td>2265480</td></tr> 
+                <tr><td>ER-194 (NON-VAT)</td><td></td><td>613200</td><td>613200</td></tr> 
+                <tr><td>VAT</td><td></td><td>8104383.22</td><td>8104383.22</td></tr> 
+                <tr><th>Total</th><th></th><th>75719030.02</th><th>75719030.02</th></tr>                
+            </tbody>
+        </table>
+        </div>
+        <div>
+            <h4>Variables</h4>
+            <table class="table table-bordered calculationTable" style="max-width: 600px;">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Value</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>   
+                <tr><td>[C_CC] Contracted Capacity, MW</td><td>15</td><td></td></tr>     
+                <tr><td>[C_CRF] Capital Recovery Fee, Php/kWh</td><td>2000</td><td></td></tr>     
+                <tr><td>[C_ER194] ER-194, Php/kWh</td><td>0.01</td><td></td></tr>            
+                <tr><td>[C_FOM] Fixed O&M Fee, Php/MW</td><td>300</td><td></td></tr>            
+                <tr><td>[C_FOREXB] FOREX Base, Usd/Php</td><td>56</td><td></td></tr>            
+                <tr><td>[C_NCRCPIB] NCR CPI Base,</td><td>4.6</td><td></td></tr>            
+                <tr><td>[C_VOM] Variable O&M Fee, Php/kWh</td><td>0.3</td><td></td></tr>            
+                <tr><td>[IX_FOREX] FOREX, Usd/Php</td><td>56.8</td><td></td></tr>            
+                <tr><td>[IX_NCRCPI] NCR CPI</td><td>3.5</td><td></td></tr>            
+                <tr><td>[PL_COALMT] Coal Consumption, MT</td><td>29107.8</td><td></td></tr>            
+                <tr><td>[PL_DCP] Delivered Coal Price, Php/MT</td><td>7400</td><td></td></tr>            
+                <tr><td>[PL_GEN] Plant Generation, kWh</td><td>54272071.8</td><td></td></tr>            
+                <tr><td>[STL_BCQ], Settlement Data BCQ, kWh</td><td>{61320000}</td><td><a>STL_BCQ.csv</a></td>                    
+            </tbody>
+          </table>
+        </div>
+        <div>
+            <h4>Calculations</h4>
+            <table  class="table table-bordered calculationTable"  id="dataTable" style="max-width: 1000px;">
+                <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Formula</th>
+                    <th>Execution</th>
+                    <th>Result</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>   
+                    <tr><td>[V_EN] Energy Delivered, kWh</td><td>SUM([STL_BCQ])</td><td>SUM([STL_BCQ])</td><td>61320000</td><td></td></tr> 
+                    <tr><td>[V_FUELR] Fuel Rate, Php/kWh</td><td>[PL_DCP]*[PL_COALMT]/[PL_GEN]</td><td>7400*29107.8/54272071.8</td><td>3.9689</td><td></td></tr>  
+                    <tr><td>[CH_FUEL] Fuel Charge, Php</td><td>[V_EN]*[V_FUELR]</td><td>61320000*3.9689</td><td>243372948</td><td></td></tr> 
+                    <tr><td>[V_FUELR] Fuel Rate, Php/kWh</td><td>[PL_DCP]*[PL_COALMT]/[PL_GEN]</td><td>7400*29107.8/54272071.8,4</td><td>3.9689</td><td></td></tr> 
+                    <tr><td>[CH_FUEL] Fuel Charge, Php</td><td>[V_EN]*[V_FUELR]</td><td>61320000*3.9689</td><td>243372948</td><td></td></tr> 
+                    <tr><td>[V_IX] Index,</td><td>[IX_NCRCPI]/[C_NCRCPIB]*[IX_FOREX]/[C_FOREXB]</td><td>4.5/4.6*56.8/56</td><td>0.9922</td><td></td></tr> 
+                    <tr><td>[CH_CRF]Capital Recovery Fee, PHP</td><td>[C_CRF]*[C_CC]*[V_IX]*1000</td><td>2000*15*0.9922*1000</td><td>29766000</td><td></td></tr> 
+                    <tr><td>[CH_FOM]Fixed O&M Fee, PHP</td><td>[C_FOM]*[C_CC]*1000</td><td>300*15*1000</td><td>4500000</td><td></td></tr> 
+                    <tr><td>[CH_VOM]Variable O&M Fee, PHP</td><td>([C_VOM]-[C_ER194])*[V_EN]</td><td>(0.3-0.01)*61320000</td><td>17782800</td><td></td></tr> 
+                    <tr><td>[CH_ER194]ER-194, PHP</td><td>[C_ER194]*[V_EN]</td><td>0.01*61320000</td><td>613200</td><td></td></tr>                     
+                </tbody>
+          </table>
+        </div>
+        <div>
+            <h4>Taxes</h4>
+            <table  class="table table-bordered calculationTable"  id="dataTable" style="max-width: 1000px;">
+                <thead>
+                <tr>
+                    <th>From Charge</th>
+                    <th> Computation</th>
+                    <th>Tax Amount</th>
+                </tr>
+                </thead>
+                <tbody>   
+                    <tr><td>Fuel Charge (VATABLE)</td><td>VAT=[31005046.8]*0.12</td><td>3720605.61</td></tr> 
+                    <tr><td>Capital Recovery Fee (VATABLE)</td><td>VAT=[29766000]*0.12</td><td>3571920</td></tr> 
+                    <tr><td>Fixed O&M Fee (VATABLE)</td><td>VAT=[4500000]*0.12</td><td>540000</td></tr> 
+                    <tr><td>Variable O&M Fee (VATABLE)</td><td>VAT=[2265480]*0.12</td><td>271857.6</td></tr> 
+                    <tr><td>ER-194 (NON-VAT)</td><td>VAT=0</td><td>0</td></tr> 
+                    <tr><th>Total</th><th></th><th>8104383.22</th></tr>
+                </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal" id="generateModal" tabindex="-1" role="dialog" style="width:600px;">
+    <div class="modal-dialog" role="document"  ></div>>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Calculations</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body"><div>
+            
+
+          <div class="form-group" style="width: 200px;">
+            <label for="period">Period</label>
+            <input type="month" class="form-control" id="period" required onchange="updateGenerateButton()">
+          </div>
+            <table class="table table-bordered" id="tblGenerate">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Contract</th>
+                    <th>Prev Calculation</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>   
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>PSA-GENCO1-DU01-001</td>
+                        <td>None</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>PSA-GENCO1-RES01-001</td>
+                        <td>None</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>PSA-RESO1-CC01-001</td>
+                        <td>None</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+              </table>
+                <!-- Add New Button -->
+                <button type="button" class="btn btn-primary" id="generateCalculationButton" onclick="generateCalculation()">
+                    Generate Calculations
+                </button>
+                <script>
+                    function updateGenerateButton() {
+                      var checkboxes = document.querySelectorAll('#tblGenerate input[type="checkbox"]');
+                      var generateButton = document.getElementById('generateCalculationButton'); 
+                       if( document.getElementById("period").value==''){                        
+                            generateButton.disabled = true;
+                            return;
+                       }                 
+                      for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                          generateButton.disabled = false;
+                          return;
+                        }
+                      }
+                      generateButton.disabled = true;
+                  
+                    }
+                      // Call updateGenerateButton whenever a checkbox is clicked
+                    var checkboxes = document.querySelectorAll('#tblGenerate input[type="checkbox"]');
+                    checkboxes.forEach(function(checkbox) {
+                        checkbox.addEventListener('click', updateGenerateButton);
+                    });
+                </script>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal" id="generatingModal" tabindex="-1" role="dialog" style="width:600px;">
+    <div class="modal-dialog" role="document"  ></div>>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Generating Calculation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body"><div>
+            <div style="height: 50px;">
+                <div id="generatingText">
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
+    </div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    var table; // Declare table variable globally
+    // DataTable initialization    
+    table = $('#dataTable').DataTable({
+      paging: true, // Enable pagination
+      searching: true, // Enable search bar
+      columns: [
+        { title: 'Reference ID' },
+        { title: 'Period' },
+        { title: 'Contract' },
+        { title: 'Rev Num' },
+        { title: 'Status' },
+        { title: 'Remarks' },
+        { title: 'Created By' },
+        { title: 'Created Time' },
+        { title: '' }, // This is for the "Edit" button column
+        { title: '' }, // This is for the "Edit" button column
+      ]
+    });   
+
+    
+    // Add New Entry button click event
+    $('#addNewModal').on('shown.bs.modal', function () {
+      // Clear form fields
+      document.getElementById("newPeriodFrom").value = "";
+      document.getElementById("newPeriodTo").value = "";
+      document.getElementById("newContract").value = "";
+      document.getElementById("newIndex").value = 0;
+      document.getElementById("newTemplate").value = "";
+      document.getElementById("newRemarks").value = "";
+
+      // Reset edit flag
+      document.getElementById("editRowIndex").value = "";
+      document.getElementById("newRevNum").value = 0;
+      document.getElementById("newPrev").value = 0;
+
+
+      document.getElementById("newContract").disabled = false;
+    });
+
+
+    function viewEntry() {   
+        $('#calculationModal').modal('show');
+    }
+
+    function generateEntry() {   
+        $('#generateModal').modal('show');
+        updateGenerateButton()
+    }
+    function generateCalculation() {
+        var contarcts = [];
+
+        var checkboxes = document.querySelectorAll('#tblGenerate input[type="checkbox"]');
+        
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                contarcts.push(checkboxes[i].closest('tr').querySelector('td:nth-child(2)').innerText);
+            }
+        }
+        
+        $('#generateModal').modal('hide');
+        $('#generatingModal').modal('show');
+
+        var generatingText = document.getElementById("generatingText");
+        generatingText.innerText = "Calculating ...";
+        setTimeout(function () {
+            for (var i = 0; i < contarcts.length; i++) {
+                table.row.add([generateRandomReference(),document.getElementById("period").value,contarcts[i],0,'Draft','','MKTG','2023-01-01 02:00'
+                ,'<button class="btn btn-info btn-sm viewButton" onclick="viewEntry(this)">view calculation</button>'
+                ,'<button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>'
+                +'<button class="btn btn-danger btn-sm cancelButton" onclick="cancelEntry(this)">Cancel</button>'
+                +'<button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>'
+                +'<button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>'
+                ]).draw().node();
+            }
+            handleUserChange();
+            generatingText.innerText = "Calculate finish.";
+            setTimeout(function () {
+            }, 700);
+            $('#generatingModal').modal('hide');
+        }, 1500);
+    }
+
+
+
+  function approveEntry(button) {
+    // Display a confirmation dialog
+    var confirmation = confirm("Are you sure you want to approve this entry?");
+    
+    // If the user clicks "OK" (true), proceed with approval
+    if (confirmation) {
+        // Retrieve the values from the selected row
+        var row = $(button).closest('tr');
+        row.find('td:eq(4)').text('Approved');
+    }
+    handleUserChange();
+}
+
+function rejectEntry(button) {
+    // Prompt the user for remarks
+    var remarks = prompt("Please provide remarks for rejecting this entry:");
+
+    // Check if the user clicked "OK" and provided remarks
+    if (remarks !== null && remarks.trim() !== "") {
+        // Update the remarks cell in the row
+        var row = button.closest('tr');
+        row.cells[5].innerText += ' Reject remarks: ' + remarks;
+        row.cells[4].innerText = 'Decline';
+
+        // Handle any additional logic or updates as needed
+        handleUserChange();
+    } else {
+        // If the user clicked "Cancel" or did not provide remarks
+        alert("You must provide remarks for rejecting this entry.");
+    }
+}
+
+    function submitEntry(button) { 
+        var remarks = prompt("Please provide remarks:");
+
+        // Check if the user clicked "OK" and provided remarks
+        if (remarks !== null && remarks.trim() !== "") {
+            // Update the remarks cell in the row
+            var row = button.closest('tr');
+            row.cells[5].innerText += remarks;
+            row.cells[4].innerText = 'New';
+
+            // Handle any additional logic or updates as needed
+            handleUserChange();
+        } else {
+            // If the user clicked "Cancel" or did not provide remarks
+            alert("You must provide remarks for submiting this entry.");
+        }
+    }
+
+    function generateRandomReference() {
+        const characters = 'ABCD0123456789';
+        let referenceNumber = '';
+
+        for (let i = 0; i < 8; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            referenceNumber += characters.charAt(randomIndex);
+        }
+
+        return referenceNumber;
+    }
+
+    function cancelEntry(button) {
+    // Prompt the user for remarks
+    var remarks = prompt("Please provide remarks for canceling this entry:");
+
+    // Check if the user clicked "OK" and provided remarks
+    if (remarks !== null && remarks.trim() !== "") {
+        // Update the remarks cell in the row
+        var row = button.closest('tr');
+        row.cells[5].innerText += ' Cancel remarks: ' + remarks;
+        row.cells[4].innerText = 'Canceled';
+
+        // Handle any additional logic or updates as needed
+        handleUserChange();
+    } else {
+        // If the user clicked "Cancel" or did not provide remarks
+        alert("You must provide remarks for rejecting this entry.");
+    }
+}
+
+
+  function handleUserChange() {
+        var userType = document.getElementById("user").value;
+        var generateButton = document.getElementById("generateButton");
+        var submitButton = document.getElementsByClassName("submitButton");
+        var cancelButton = document.getElementsByClassName("cancelButton");
+        var approveButton = document.getElementsByClassName("approveButton");
+        var declineButton = document.getElementsByClassName("rejectButton");
+        // Hide or show buttons based on user type
+        if (userType === "MKTG") {
+            generateButton.style.display = "block"; // Show "Add New" button
+            for (var i = 0; i < submitButton.length; i++) {
+                if( submitButton[i].closest('tr').cells[4].innerText=='Draft') {
+                    submitButton[i].style.display = "block"; 
+                }else{
+                    submitButton[i].style.display = "none";  
+                }
+
+                if( submitButton[i].closest('tr').cells[4].innerText!='Canceled') {
+                        cancelButton[i].style.display = "block"; 
+                }else{
+                    cancelButton[i].style.display = "none"; 
+                }
+
+                approveButton[i].style.display = "none"; 
+                declineButton[i].style.display = "none";
+            }
+        } else if (userType === "MKTGMNGR") {
+            generateButton.style.display = "none"; // Hide "Add New" button
+            for (var i = 0; i < submitButton.length; i++) {
+                submitButton[i].style.display = "none"; // Hide "Edit" buttons
+                cancelButton[i].style.display = "none"; // Hide "Edit" buttons
+
+                if( submitButton[i].closest('tr').cells[4].innerText=='New') {
+                    approveButton[i].style.display = "block"; 
+                    declineButton[i].style.display = "block"; 
+                }else{
+                  approveButton[i].style.display = "none"; 
+                  declineButton[i].style.display = "none"; 
+                }
+            }
+        }
+    }
+    handleUserChange();
+
+
+    $('#dataTable').on('draw.dt', function () {
+      handleUserChange();
+    });
+
+    function applyTemplateFilter() {
+      var contractFilter = document.getElementById("templateFilter").value;
+      table.column(0).search(contractFilter).draw();
+    }
+</script>
+</body>
+</html>

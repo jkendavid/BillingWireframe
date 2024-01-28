@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+  <title>Charge TAX Mapping</title>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contracts
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="parties.html">Parties</a>
+                    <a class="dropdown-item" href="contracts.html">Contract List</a>
+                    <a class="dropdown-item" href="contract_data.html">Contracts Data</a>
+                    <a class="dropdown-item" href="contract_fieldvalues.html">Contracts Field Values</a>
+                    <a class="dropdown-item" href="contract_templates.html">Contract Templates</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Calculations
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="calculation_template.html">Templates</a>
+                    <a class="dropdown-item" href="template_formulas.html">Template Formulas</a>
+                    <a class="dropdown-item" href="billing_generations.html">Billing Generation</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Variables
+              </a>
+              <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                  <a class="dropdown-item" href="variables.html">Variable List</a>
+                  <a class="dropdown-item" href="variable_units.html">Variable Units</a>
+                  <a class="dropdown-item" href="finance_accounts.html">Finance Accounts</a>
+                  <a class="dropdown-item" href="finance_account_link.html">Finance Accounts Link</a>
+                  <a class="dropdown-item" href="charge_tax_mapping.html">Charge TAX Mapping</a>
+              </div>
+          </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Billing Determinants
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="variable_data_montlyindices.html">Monthly Indices</a>
+                    <a class="dropdown-item" href="variable_data_montlyplantdata.html">Monthly Plant Data</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">         
+            <li class="nav-item">
+                <select class="form-control" id="user" required onchange="handleUserChange()">
+                  <option value="MKTG">MKTG</option>
+                  <option value="MKTGMNGR">MKTGMNGR</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+  </nav>
+
+<div class="container mt-4">
+  
+  <div class="container mt-4">
+  
+  
+  <h2>Charge TAX Mapping</h2>
+  <!--  Filter -->
+
+  <!-- Table -->
+  <table class="table table-bordered" id="dataTable">
+    <thead>
+      <tr>
+        <th>Charge</th>
+        <th>TAX Category</th>
+        <th>TAX Charge</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>CH_VOM</td><td>VATABLE</td><td>VAT</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+      <tr><td>CH_ER194</td><td>NONVAT</td><td>VAT</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+      <tr><td>CH_FUEL</td><td>VATABLE</td><td>VAT</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Add New Button -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
+    Add New
+  </button>
+</div>
+
+<!-- Add New Modal -->
+<div class="modal" id="addNewModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add/Edit Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form for adding new entries -->
+        <form id="addEntryForm">
+          <input type="hidden" id="editRowIndex" value="">          
+          <div class="form-group">
+            <label for="newCharge">Charge</label>
+            <select class="form-control" id="newCharge" required>
+              <option value="CH_VOM">CH_VOM</option>
+              <option value="CH_FOM">CH_FOM</option>
+              <option value="CH_FUEL">CH_FUEL</option>
+              <option value="CH_ER194">CH_ER194</option>
+              <option value="CH_FUEL">CH_FUEL</option>
+            </select>
+          </div>  
+          <div class="form-group">
+            <label for="newTaxCategory">TAX Category</label>
+            <select class="form-control" id="newTaxCategory" required>
+              <option value="VATABLE">VATABLE</option>
+              <option value="NONVAT">NONVAT</option>
+              <option value="ZEROVAT">ZEROVAT</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="newTaxCharge">TAX Charge</label>
+            <select class="form-control" id="newTaxCharge" required>
+              <option value="VAT">VAT</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="addNewEntry()">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+  var table; // Declare table variable globally
+
+  $(document).ready(function() {
+    // DataTable initialization
+    table = $('#dataTable').DataTable({
+      paging: true, // Enable pagination
+      searching: true, // Enable search bar
+      columns: [
+        { title: 'Charge' },
+        { title: 'Tax Category' },
+        { title: 'Tax Charge' },
+        { title: '' } // This is for the "Edit" button column
+      ]
+    });
+
+    // Add New Entry button click event
+    $('#addNewModal').on('shown.bs.modal', function () {
+      // Clear form fields
+      document.getElementById("newCharge").value = "";
+      document.getElementById("newTaxCategory").value = "";
+      document.getElementById("newTaxCharge").value = "";
+      // Enable Code field for new entry
+      document.getElementById("newCharge").readOnly = false;      
+      document.getElementById("newTaxCategory").disabled = false;
+      document.getElementById("newTaxCharge").disabled = false;
+      // Reset edit flag
+      document.getElementById("editRowIndex").value = "";
+    });
+  });
+
+  function addNewEntry() {
+    // Get values from the form
+    var newCharge = document.getElementById("newCharge").value;
+    var newTaxCategory = document.getElementById("newTaxCategory").value;
+    var newTaxCharge = document.getElementById("newTaxCharge").value;
+
+    // Validate input
+    if (!newCharge || !newTaxCategory || !newTaxCharge) {
+      alert("Please enter valid data.");
+      return;
+    }
+
+    // Check if editing an existing entry
+    var editing = document.getElementById("editRowIndex").value;
+    if (editing !== "") {
+      // Update existing row
+      var row = table.row(parseInt(editing)).node();
+      row.cells[0].innerText = newCharge;
+      row.cells[1].innerText = newTaxCategory;
+      row.cells[2].innerText = newTaxCharge;
+
+      // Reset edit flag
+      document.getElementById("editRowIndex").value = "";
+    } else {
+      // Create a new table row
+      var newRow = table.row.add([newCharge, newTaxCategory, newTaxCharge, '<button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button>']).draw().node();
+    }
+
+    // Clear form fields
+    document.getElementById("newCharge").value = "";
+    document.getElementById("newTaxCategory").value = "";
+    document.getElementById("newTaxCharge").value = "";
+
+    // Close the modal
+    $('#addNewModal').modal('hide');
+  }
+var xx
+  function editEntry(button) {
+  // Retrieve the DataTable instance
+    var table = $('#dataTable').DataTable();
+xx=button
+    // Retrieve the values from the selected row
+    var row = button.closest('tr');
+    var charge = row.cells[0].innerText;
+    var taxCategory = row.cells[1].innerText;
+    var taxCharge = row.cells[2].innerText;
+
+
+    // Open the modal for editing
+    $('#addNewModal').modal('show');
+    // Set the values in the modal for editing
+    document.getElementById("newCharge").value = charge;
+    document.getElementById("newTaxCategory").value = taxCategory;
+    document.getElementById("newTaxCharge").value = taxCharge;
+
+    // Set the readonly attribute for Code field
+    document.getElementById("newCharge").disabled = true;
+
+    // Set the index of the row being edited
+    document.getElementById("editRowIndex").value = table.row(row).index();
+  }
+
+</script>
+
+</body>
+</html>

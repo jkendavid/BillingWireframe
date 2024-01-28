@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+  <title>Calculation Templates</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contracts
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="parties.html">Parties</a>
+                    <a class="dropdown-item" href="contracts.html">Contract List</a>
+                    <a class="dropdown-item" href="contract_data.html">Contracts Data</a>
+                    <a class="dropdown-item" href="contract_fieldvalues.html">Contracts Field Values</a>
+                    <a class="dropdown-item" href="contract_templates.html">Contract Templates</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Calculations
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="calculation_template.html">Templates</a>
+                    <a class="dropdown-item" href="template_formulas.html">Template Formulas</a>
+                    <a class="dropdown-item" href="billing_generations.html">Billing Generation</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Variables
+              </a>
+              <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                  <a class="dropdown-item" href="variables.html">Variable List</a>
+                  <a class="dropdown-item" href="variable_units.html">Variable Units</a>
+                  <a class="dropdown-item" href="finance_accounts.html">Finance Accounts</a>
+                  <a class="dropdown-item" href="finance_account_link.html">Finance Accounts Link</a>
+                  <a class="dropdown-item" href="charge_tax_mapping.html">Charge TAX Mapping</a>
+              </div>
+          </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Billing Determinants
+                </a>
+                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <a class="dropdown-item" href="variable_data_montlyindices.html">Monthly Indices</a>
+                    <a class="dropdown-item" href="variable_data_montlyplantdata.html">Monthly Plant Data</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">         
+            <li class="nav-item">
+                <select class="form-control" id="user" required onchange="handleUserChange()">
+                  <option value="MKTG">MKTG</option>
+                  <option value="MKTGMNGR">MKTGMNGR</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+  </nav>
+
+
+<div class="container">
+  
+  <h2>Calculation Templates</h2>
+
+  <!-- Table -->
+  <table class="table table-bordered" id="dataTable">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Text</th>
+        <th>Description</th>
+        <th>Created By</th>
+        <th>Created Time</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr><td>DUMAIN</td><td>Main Template for DU and Ecs</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td>
+        <td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button></td>
+      </tr> 
+      <tr><td>RESMAIN</td><td>Main Template for RES Customers</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td>
+        <td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button></td>
+      </tr> 
+      <tr><td>RETAILMAIN</td><td>Main Template for Retail Customer</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td>
+        <td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button></td>
+      </tr> 
+    </tbody>
+  </table>
+
+  <!-- Add New Button -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal" id="addNewButton">
+    Add New
+  </button>
+</div>
+
+<!-- Add New Modal -->
+<div class="modal" id="addNewModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add/Edit Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form for adding new entries -->
+        <form id="addEntryForm">
+          <input type="hidden" id="editRowIndex" value="">    
+          <div class="form-group">
+            <label for="newRemarks">Code*</label>
+            <input type="text" class="form-control" id="newCode" required>
+          </div>
+          <div class="form-group">
+            <label for="newRemarks">Text*</label>
+            <input type="text" class="form-control" id="newText" required>
+          </div>
+          <div class="form-group">
+            <label for="newRemarks">Remarks</label>
+            <input type="text" class="form-control" id="newRemarks">
+          </div>
+          <button type="button" class="btn btn-primary" onclick="addNewEntry()">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+  var table; // Declare table variable globally
+
+  $(document).ready(function() {
+    // DataTable initialization    
+    table = $('#dataTable').DataTable({
+      paging: true, // Enable pagination
+      searching: true, // Enable search bar
+      columns: [
+        { title: 'Code' },
+        { title: 'Text' },
+        { title: 'Remarks' },
+        { title: 'CreatedBy' },
+        { title: 'CreatedTime' },
+        { title: '' },
+      ]
+    });   
+
+    // Add New Entry button click event
+    $('#addNewModal').on('shown.bs.modal', function () {
+      // Clear form fields
+      document.getElementById("newCode").value = "";
+      document.getElementById("newText").value = "";
+      document.getElementById("newRemarks").value = "";
+      // Reset edit flag
+      document.getElementById("editRowIndex").value = "";
+      document.getElementById("newCode").disabled = false;
+    });
+  });
+
+  function addNewEntry() {
+    // Get values from the form
+    var newCode = document.getElementById("newCode").value;
+    var newText = document.getElementById("newText").value;
+    var newRemarks = document.getElementById("newRemarks").value;
+
+    // Validate input
+    if (!newCode || !newText) {
+      alert("Please enter valid data.");
+      return;
+    }
+
+    // Check if editing an existing entry
+    var editing = document.getElementById("editRowIndex").value;
+    if (editing !== "") {
+      // Update existing row
+      var row = table.row(parseInt(editing)).node();
+      row.cells[0].innerText = newCode;
+      row.cells[1].innerText = newText;
+      row.cells[2].innerText = newRemarks;
+      // Reset edit flag
+      document.getElementById("editRowIndex").value = "";
+    } else {
+      // Create a new table row
+      table.row.add([newCode, newText, newRemarks,'MRKTG','2023-01-01 02:00',
+        '<td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button></td>'
+      ]).draw();
+    }
+
+    // Clear form fields
+    document.getElementById("newCode").value = "";
+    document.getElementById("newText").value = "";
+    document.getElementById("newRemarks").value = "";
+
+    $('#addNewModal').modal('hide');
+  }
+
+  function editEntry(button) {
+    // Retrieve the DataTable instance
+    var table = $('#dataTable').DataTable();
+
+    // Retrieve the values from the selected row
+    var row = button.closest('tr');
+    var code = row.cells[0].innerText;
+    var text = row.cells[1].innerText;
+    var remarks = row.cells[2].innerText;
+
+    // Open the modal for editing
+    $('#addNewModal').modal('show');
+    // Set the values in the modal for editing
+    document.getElementById("newCode").value = code;
+    document.getElementById("newText").value = text;
+    document.getElementById("newRemarks").value = remarks;
+
+    // Set the readonly attribute for certain fields
+    document.getElementById("newCode").disabled = true;
+
+    // Set the editRowIndex value for reference during update
+    document.getElementById("editRowIndex").value = table.row(row).index();
+  }
+</script>
+</body>
+</html>
