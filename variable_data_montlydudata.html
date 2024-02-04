@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
-  <title>Monthly Plant Data</title>
+  <title>Monthly DU Data</title>
 </head>
 <body>
 
@@ -14,7 +14,7 @@
   <div class="container mt-4">
   
 
-  <h2>Monthly Plant Data</h2>
+  <h2>Monthly DU Data</h2>
 
      <!-- Contract Filter -->
   <div class="form-row mt-3">
@@ -33,7 +33,7 @@
     <thead>
       <tr>
         <th>Period</th>
-        <th>Plant</th>
+        <th>DU</th>
         <th>Variable</th>
         <th>Value</th>
         <th>Rev Num</th>
@@ -47,19 +47,9 @@
       </tr>
     </thead>
     <tbody>   
-      <tr><td>2024-01</td><td>GEN01</td><td>PL_DCP</td><td>7100</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2024-01</td><td>GEN01</td><td>PL_COALMT</td><td>32342</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2024-01</td><td>GEN01</td><td>PL_GEN</td><td>60302302</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-12</td><td>GEN01</td><td>PL_DCP</td><td>7400</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-12</td><td>GEN01</td><td>PL_COALMT</td><td>29107.8</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-12</td><td>GEN01</td><td>PL_GEN</td><td>54272071.8</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-11</td><td>GEN01</td><td>PL_DCP</td><td>7200</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-11</td><td>GEN01</td><td>PL_COALMT</td><td>21219</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-11</td><td>GEN01</td><td>PL_GEN</td><td>39564340.3</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-10</td><td>GEN01</td><td>PL_DCP</td><td>7300</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-10</td><td>GEN01</td><td>PL_COALMT</td><td>19097.6</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      <tr><td>2023-10</td><td>GEN01</td><td>PL_GEN</td><td>35607906.3</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
- </tbody>
+      <tr><td>2024-01</td><td>MERALCO</td><td>DWSA</td><td>7100</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+      <tr><td>2024-01</td><td>VECO</td><td>DWSA</td><td>7100</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+    </tbody>
   </table>
 
   <!-- Add New Button -->
@@ -91,9 +81,10 @@
             <input type="month" class="form-control" id="newPeriod" required>
           </div>
           <div class="form-group">
-            <label for="newPlant">Plant*</label>
-            <select class="form-control" id="newPlant" required>
-              <option value="GEN01">GEN01</option>
+            <label for="newDU">DU*</label>
+            <select class="form-control" id="newDU" required>
+              <option value="MERALCO">MERALCO</option>
+              <option value="VECO">VECO</option>
             </select>
           </div>  
           <div class="form-group">
@@ -134,7 +125,7 @@
       searching: true, // Enable search bar
       columns: [
         { title: 'Period' },
-        { title: 'Plant' },
+        { title: 'DU' },
         { title: 'Variable' },
         { title: 'Value' },
         { title: 'Rev No.' },
@@ -152,7 +143,7 @@
     // Add New Entry button click event
     $('#addNewModal').on('shown.bs.modal', function () {
       // Clear form fields
-      document.getElementById("newPlant").value = "";
+      document.getElementById("newDU").value = "";
       document.getElementById("newVariable").value = "";
       document.getElementById("newValue").value = "";
       document.getElementById("newRemarks").value = "";
@@ -162,14 +153,14 @@
       document.getElementById("newRevNum").value = 0;
       document.getElementById("newPrev").value = 0;
 
-      document.getElementById("newPlant").disabled = false;
+      document.getElementById("newDU").disabled = false;
       document.getElementById("newPeriod").disabled = false;
       document.getElementById("newVariable").disabled = false;
     });
 
   function addNewEntry() {
     // Get values from the form
-    var newPlant = document.getElementById("newPlant").value;
+    var newDU = document.getElementById("newDU").value;
     var newPeriod = document.getElementById("newPeriod").value;
     var newVariable = document.getElementById("newVariable").value;
     var newValue = document.getElementById("newValue").value;
@@ -184,7 +175,7 @@
     var newCreatedTime = '2023-01-01 12:10';
 
     // Validate input
-    if (!newPeriod || !newVariable || !newValue|| !newPlant) {
+    if (!newPeriod || !newVariable || !newValue|| !newDU) {
       alert("Please enter valid data.");
       return;
     }
@@ -195,7 +186,7 @@
       // Update existing row
       var row = table.row(parseInt(editing)).node();
       row.cells[0].innerText = newPeriod;
-      row.cells[1].innerText = newPlant;
+      row.cells[1].innerText = newDU;
       row.cells[2].innerText = newVariable;
       row.cells[3].innerText = newValue;
       row.cells[4].innerText = newRevNum;
@@ -209,7 +200,7 @@
       document.getElementById("editRowIndex").value = "";
     } else {
       // Create a new table row
-      var newRow = table.row.add([newPeriod, newPlant, newVariable, newValue, newRevNum, newPrev, newStatus, newActive, newRemarks, newCreatedBy, newCreatedTime,
+      var newRow = table.row.add([newPeriod, newDU, newVariable, newValue, newRevNum, newPrev, newStatus, newActive, newRemarks, newCreatedBy, newCreatedTime,
     '<td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td>',
     
     ]).draw().node();
@@ -217,7 +208,7 @@
 
     
     // Clear form fields
-    document.getElementById("newPlant").value = "";
+    document.getElementById("newDU").value = "";
     document.getElementById("newVariable").value = "";
     document.getElementById("newValue").value = 0;
     document.getElementById("newRemarks").value = "";
@@ -227,7 +218,7 @@
     document.getElementById("newRevNum").value = 0;
     document.getElementById("newPrev").value = 0;
 
-    document.getElementById("newPlant").disabled = false;
+    document.getElementById("newDU").disabled = false;
     document.getElementById("newPeriod").disabled = false;
     document.getElementById("newVariable").disabled = false;
     
@@ -243,7 +234,7 @@
     var row = button.closest('tr');
 
     var period = row.cells[0].innerText;
-    var plant = row.cells[1].innerText;
+    var DU = row.cells[1].innerText;
     var variable = row.cells[2].innerText;
     var value = row.cells[3].innerText;
     var revNum = row.cells[4].innerText;
@@ -255,7 +246,7 @@
     $('#addNewModal').modal('show');
     // Set the values in the modal for editing
     document.getElementById("newPeriod").value = period;
-    document.getElementById("newPlant").value = plant;
+    document.getElementById("newDU").value = DU;
     document.getElementById("newVariable").value = variable;
     document.getElementById("newValue").value = value;
     document.getElementById("newRevNum").value = revNum;
@@ -264,7 +255,7 @@
 
     // Set the readonly attribute for certain fields
     document.getElementById("newPeriod").disabled = true;
-    document.getElementById("newPlant").disabled = true;
+    document.getElementById("newDU").disabled = true;
     document.getElementById("newVariable").disabled = true;
 
     if(status=='Approved'){

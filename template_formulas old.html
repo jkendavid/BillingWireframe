@@ -7,25 +7,35 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
 
-  <title>Contract Templates</title>
+  <title>Template Formulas</title>
 </head>
 <body>
 
-<div class="container">
-
+  
   <div class="container mt-4">
 
-  <h2>Contract Templates</h2>
+  <h2>Template Formulas</h2>
 
+     <!-- Contract Filter -->
+  <div class="form-row mt-3">
+    <div class="form-group">
+      <select class="form-control" id="templateFilter" onchange="applyTemplateFilter()">
+        <option value="">All Template</option>
+        <option value="DUMAIN">DUMAIN</option>
+        <option value="RESMAIN">RESMAIN</option>
+        <option value="RETAILMAIN">RETAILMAIN</option>
+      </select>
+    </div>
+  </div>
   <!-- Table -->
   <table class="table table-bordered" id="dataTable">
     <thead>
       <tr>
-        <th>Period From</th>
-        <th>Period To</th>
-        <th>Contract</th>
-        <th>Index</th>
         <th>Template</th>
+        <th>Index</th>
+        <th>Type</th>
+        <th>Variable</th>
+        <th>Formula</th>
         <th>Rev Num</th>
         <th>Prev Rec</th>
         <th>Status</th>
@@ -37,10 +47,17 @@
       </tr>
     </thead>
     <tbody>   
-        <tr><td></td><td></td><td>PSA-GENCO1-DU01-001</td><td>0</td><td>DUMAIN</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-        <tr><td></td><td></td><td>PSA-GENCO1-RES01-001</td><td>0</td><td>RESMAIN</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-        <tr><td></td><td></td><td>PSA-RESO1-CC01-001</td><td>0</td><td>RETAILMAIN</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-      </tbody>
+        <tr><td>DUMAIN</td><td>10</td><td>CALCVAR</td><td>[V_EN] Energy Delivered, kWh</td><td>SUM([STL_BCQ])</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>20</td><td>CALCVAR</td><td>[V_FUELR] Fuel Rate, Php/kWh</td><td>[V_EN]*[V_FUELR]/[PL_GEN]</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>30</td><td>CHARGES</td><td>[CH_FUEL] Fuel Charge, Php</td><td>[V_EN]*[V_FUELR]</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>40</td><td>CALCVAR</td><td>[V_IX] Index,</td><td>[IX_NCRCPI]/[C_NCRCPIB]*[IX_FOREX]/[C_FOREXB]</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>50</td><td>CHARGES</td><td>[CH_CRF]Capital Recovery Fee, PHP</td><td>[C_CRF]*[C_CC]*[V_IX]*1000</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>60</td><td>CHARGES</td><td>[CH_FOM]Fixed O&M Fee, PHP</td><td>[C_FOM]*[C_CC]*1000</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>70</td><td>CHARGES</td><td>[CH_VOM]Variable O&M Fee, PHP</td><td>([C_VOM]-[C_ER194])*[V_EN]</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr><td>DUMAIN</td><td>80</td><td>CHARGES</td><td>[CH_ER194]ER-194, PHP</td><td>[C_ER194]*[V_EN]</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+         
+        
+    </tbody>
   </table>
 
   <!-- Add New Button -->
@@ -65,40 +82,44 @@
         <form id="addEntryForm">
           <input type="hidden" id="editRowIndex" value="">    
           <input type="hidden" id="newRevNum" value="0">     
-          <input type="hidden" id="newPrev" value="">  
-
+          <input type="hidden" id="newPrev" value="">    
           <div class="form-group">
-            <label for="newPeriodFrom">From</label>
-            <input type="month" class="form-control" id="newPeriodFrom" required>
-          </div>
-
-          <div class="form-group">
-            <label for="newPeriodTo">To</label>
-            <input type="month" class="form-control" id="newPeriodTo" required>
-          </div>
-
-          <div class="form-group">
-            <label for="newContract">Contract*</label>
-            <select class="form-control" id="newContract" required>
-              <option value="PSA-GENCO1-DU01-001">PSA-GENCO1-DU01-001</option>
-              <option value="PSA-GENCO1-RES01-001">PSA-GENCO1-RES01-001</option>
-              <option value="PSA-RESO1-CC01-001">PSA-RESO1-CC01-001</option>
-            </select>
-          </div>  
-
-          <div class="form-group">
-            <label for="newIndex">Index</label>
-            <input type="number" class="form-control" id="newIndex" required min="1" max="1000">
-          </div>        
-
-          <div class="form-group">
-            <label for="newTemplate">Type*</label>
+            <label for="newTemplate">Template*</label>
             <select class="form-control" id="newTemplate" required>
               <option value="DUMAIN">DUMAIN</option>
               <option value="RESMAIN">RESMAIN</option>
               <option value="RETAILMAIN">RETAILMAIN</option>
             </select>
-          </div>         
+          </div>          
+          <div class="form-group">
+            <label for="newIndex">Index</label>
+            <input type="number" class="form-control" id="newIndex" required min="1" max="1000">
+          </div>
+          <div class="form-group">
+            <label for="newType">Type*</label>
+            <select class="form-control" id="newType" required>
+              <option value="CALCVAR">CALCVAR</option>
+              <option value="CHARGES">CHARGES</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="newVar">Variable*</label>
+            <select class="form-control" id="newVar" required>
+              <option class="optCALCVAR" value="[V_EN] Energy Delivered, kWh">[V_EN] Energy Delivered, kWh</option>
+              <option class="optCALCVAR" value="[V_FUELR] Fuel Rate, Php/kWh">[V_FUELR] Fuel Rate, Php/kWh</option>
+              <option class="optCALCVAR" value="[V_IX] Index,">[V_IX] Index,</option>
+              <option class="optCHARGES" value="[CH_FUEL] Fuel Charge, Php">[CH_FUEL] Fuel Charge, Php</option>
+              <option class="optCHARGES" value="[CH_CRF]Capital Recovery Fee, PHP">[CH_CRF]Capital Recovery Fee, PHP</option>
+              <option class="optCHARGES" value="[CH_FOM]Fixed O&M Fee, PHP">[CH_FOM]Fixed O&M Fee, PHP</option>
+              <option class="optCHARGES" value="[CH_VOM]Variable O&M Fee, PHP">[CH_VOM]Variable O&M Fee, PHP</option>
+              <option class="optCHARGES" value="[CH_ER194]ER-194, PHP">[CH_ER194]ER-194, PHP</option>
+            </select>
+          </div>       
+          <div class="form-group">
+            <label for="newFormula">Formula</label>
+            <textarea class="form-control" id="newFormula"></textarea>
+          </div>
+
 
           <div class="form-group">
             <label for="newRemarks">Remarks</label>
@@ -110,6 +131,7 @@
     </div>
   </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -125,11 +147,11 @@
       paging: true, // Enable pagination
       searching: true, // Enable search bar
       columns: [
-        { title: 'PeriodFrom' },
-        { title: 'PeriodTo' },
-        { title: 'Contract' },
-        { title: 'Index' },
         { title: 'Template' },
+        { title: 'Index' },
+        { title: 'Type' },
+        { title: 'Variable' },
+        { title: 'Formula' },
         { title: 'Rev No.' },
         { title: 'Prev Rec' },
         { title: 'Status' },
@@ -145,29 +167,29 @@
     // Add New Entry button click event
     $('#addNewModal').on('shown.bs.modal', function () {
       // Clear form fields
-      document.getElementById("newPeriodFrom").value = "";
-      document.getElementById("newPeriodTo").value = "";
-      document.getElementById("newContract").value = "";
-      document.getElementById("newIndex").value = 0;
       document.getElementById("newTemplate").value = "";
+      document.getElementById("newIndex").value = 0;
+      document.getElementById("newType").value = "";
+      document.getElementById("newVar").value = "";
+      document.getElementById("newFormula").value = "";
       document.getElementById("newRemarks").value = "";
 
       // Reset edit flag
       document.getElementById("editRowIndex").value = "";
       document.getElementById("newRevNum").value = 0;
       document.getElementById("newPrev").value = 0;
-
-
-      document.getElementById("newContract").disabled = false;
+      document.getElementById("newTemplate").disabled = false;
+      document.getElementById("newType").disabled = false;
+      document.getElementById("newVar").disabled = false;
     });
 
   function addNewEntry() {
     // Get values from the form
-    var newPeriodFrom = document.getElementById("newPeriodFrom").value;
-    var newPeriodTo = document.getElementById("newPeriodTo").value;
-    var newContract = document.getElementById("newContract").value;
-    var newIndex = document.getElementById("newIndex").value;
     var newTemplate = document.getElementById("newTemplate").value;
+    var newIndex = document.getElementById("newIndex").value;
+    var newType = document.getElementById("newType").value;
+    var newVar = document.getElementById("newVar").value;
+    var newFormula = document.getElementById("newFormula").value;
     var newRemarks = document.getElementById("newRemarks").value;
 
     var newRevNum = document.getElementById("newRevNum").value;
@@ -179,7 +201,7 @@
     var newCreatedTime = '2023-01-01 12:10';
 
     // Validate input
-    if ( !newContract|| !newIndex|| !newTemplate) {
+    if (!newTemplate || !newVar || !newVar|| !newVar|| !newFormula) {
       alert("Please enter valid data.");
       return;
     }
@@ -189,11 +211,11 @@
     if (editing !== "") {
       // Update existing row
       var row = table.row(parseInt(editing)).node();
-      row.cells[0].innerText = newPeriodFrom;
-      row.cells[1].innerText = newPeriodTo;
-      row.cells[2].innerText = newContract;
-      row.cells[3].innerText = newIndex;
-      row.cells[4].innerText = newTemplate;
+      row.cells[0].innerText = newTemplate;
+      row.cells[1].innerText = newIndex;
+      row.cells[2].innerText = newType;
+      row.cells[3].innerText = newVar;
+      row.cells[4].innerText = newFormula;
       row.cells[5].innerText = newRevNum;
       row.cells[6].innerText = newPrev;
       row.cells[7].innerText = newStatus;
@@ -205,7 +227,7 @@
       document.getElementById("editRowIndex").value = "";
     } else {
       // Create a new table row
-      var newRow = table.row.add([newPeriodFrom, newPeriodTo, newContract, newIndex, newTemplate, newRevNum, newPrev, newStatus, newActive, newRemarks, newCreatedBy, newCreatedTime, 
+      var newRow = table.row.add([newTemplate, newIndex, newType, newVar, newFormula, newRevNum, newPrev, newStatus, newActive, newRemarks, newCreatedBy, newCreatedTime, 
     '<td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td>',
     
     ]).draw().node();
@@ -213,19 +235,21 @@
 
     
     // Clear form fields
-    var newPeriodFrom = document.getElementById("newPeriodFrom").value;
-    var newPeriodTo = document.getElementById("newPeriodTo").value;
-    var newContract = document.getElementById("newContract").value;
-    var newIndex = document.getElementById("newIndex").value;
-    var newTemplate = document.getElementById("newTemplate").value;
-    var newRemarks = document.getElementById("newRemarks").value;
+    document.getElementById("newTemplate").value = "";
+    document.getElementById("newIndex").value = 0;
+    document.getElementById("newType").value = "";
+    document.getElementById("newVar").value = "";
+    document.getElementById("newFormula").value = "";
+    document.getElementById("newRemarks").value = "";
 
     // Reset edit flag
-      document.getElementById("editRowIndex").value = "";
-      document.getElementById("newRevNum").value = 0;
-      document.getElementById("newPrev").value = 0;
+    document.getElementById("editRowIndex").value = "";
+    document.getElementById("newRevNum").value = 0;
+    document.getElementById("newPrev").value = 0;
 
-      document.getElementById("newContract").disabled = false;
+    document.getElementById("newVar").disabled = false;
+    document.getElementById("newType").disabled = false;
+    document.getElementById("newTemplate").disabled = false;
     
     $('#addNewModal').modal('hide');
     handleUserChange();
@@ -238,11 +262,11 @@
     // Retrieve the values from the selected row
     var row = button.closest('tr');
 
-    var periodFrom = row.cells[0].innerText;
-    var periodTo = row.cells[1].innerText;
-    var contract = row.cells[2].innerText;
-    var index = row.cells[3].innerText;
-    var template = row.cells[4].innerText;
+    var template = row.cells[0].innerText;
+    var index = row.cells[1].innerText;
+    var type = row.cells[2].innerText;
+    var variable = row.cells[3].innerText;
+    var formula = row.cells[4].innerText;
     var revNum = row.cells[5].innerText;
     var prev = row.cells[6].innerText; 
     var status = row.cells[7].innerText;
@@ -251,17 +275,19 @@
     // Open the modal for editing
     $('#addNewModal').modal('show');
     // Set the values in the modal for editing
-    document.getElementById("newPeriodFrom").value = periodFrom;
-    document.getElementById("newPeriodTo").value = periodTo;
-    document.getElementById("newContract").value = contract;
-    document.getElementById("newIndex").value = index;
     document.getElementById("newTemplate").value = template;
+    document.getElementById("newType").value = type;
+    document.getElementById("newIndex").value = index;
+    document.getElementById("newVar").value = variable;
+    document.getElementById("newFormula").value = formula;
     document.getElementById("newRevNum").value = revNum;
     document.getElementById("newPrev").value = prev;
     document.getElementById("newRemarks").value = remarks;
 
     // Set the readonly attribute for certain fields
-    document.getElementById("newContract").disabled = true;
+    document.getElementById("newTemplate").disabled = true;
+    document.getElementById("newType").disabled = true;
+    document.getElementById("newVar").disabled = true;
 
     if(status=='Approved'){
       document.getElementById("newPrev").value =table.row(row).index();      
