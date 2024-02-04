@@ -5,48 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
   <title>Finance Account Link</title>
+
+  <style>
+    .container{
+      margin: auto;
+    }
+
+    td .btn-sm{
+      min-width: 80px;
+      margin: 0px 2px;
+      height: 25px;
+      font-size: 12px;
+    }  
+    .table {
+        padding: 0;
+    }
+    .table th, .table td, .table tr {
+      padding-top: 2px;
+      padding-bottom: 5px;
+      font-size: 14px;
+    }
+    .colindex {
+      width: 3px;
+    }
+   
+  </style>
+  
 </head>
 <body>
 
 <div class="container mt-4">
-  
-  
-  
-  <h2>Finance Account Link</h2>
-  <!--  Filter -->
 
-  <!-- Table -->
+  <h2>Finance Account Link</h2>
+  
+  <div class="row my-2">
+    <div class="mx-auto"></div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">Add New</button>
+  </div>
+
   <table class="table table-bordered" id="dataTable">
     <thead>
       <tr>
         <th>Party</th>
-        <th>Transaction Side</th>
-        <th>Charge</th>
-        <th>Positve Value Account</th>
-        <th>Negative Value Account</th>
+        <th>Side</th>
+        <th>Charges</th>
+        <th>Account (pos.)</th>
+        <th>Account (neg.)</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>GEN01</td><td>SELLER</td><td>CRF</td><td>CRFR</td><td>CRFE</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>GEN01</td><td>SELLER</td><td>FOM</td><td>FOMR</td><td>FOME</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>GEN01</td><td>SELLER</td><td>VOM</td><td>VOMR</td><td>VOME</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>GEN01</td><td>SELLER</td><td>ER194</td><td>ER194R</td><td>ER194E</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>GEN01</td><td>SELLER</td><td>FUEL</td><td>FUELR</td><td>FUELE</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>RES01</td><td>BUYER</td><td>CRF</td><td>CRFE</td><td>CRFR</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>RES01</td><td>BUYER</td><td>FOM</td><td>FOME</td><td>FOMR</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>RES01</td><td>BUYER</td><td>VOM</td><td>VOME</td><td>VOMR</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>RES01</td><td>BUYER</td><td>ER194</td><td>ER194E</td><td>ER194R</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-      <tr><td>RES01</td><td>BUYER</td><td>FUEL</td><td>FUELE</td><td>FUELR</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
-     
+      <tr><td>GEN01</td><td>SELLER</td><td>CRF[base]</td><td>CRFR</td><td>CRFE</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+      <tr><td>GEN01</td><td>SELLER</td><td>FOM[base]</td><td>FOMR</td><td>FOME</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+      <tr><td>GEN01</td><td>SELLER</td><td>VOM[base]</td><td>VOMR</td><td>VOME</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+      <tr><td>GEN01</td><td>SELLER</td><td>ER194[base]</td><td>ER194R</td><td>ER194E</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>
+      <tr><td>GEN01</td><td>SELLER</td><td>FUEL[base]</td><td>FUELR</td><td>FUELE</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td></tr>  
+      <tr><td>GEN01</td><td>SELLER</td>
+        <td>
+          <div>CRF[vat]</div>
+          <div>FOM[vat]</div>
+          <div>VOM[vat]</div>
+          <div>ER194[vat]</div>
+          <div>FUEL[vat]</div>
+        </td>
+        <td>VATR</td><td>VATE</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>      
+      <tr><td>RES01</td><td>BUYER</td>
+        <td>
+          <div>CRF[vat]</div>
+          <div>FOM[vat]</div>
+          <div>VOM[vat]</div>
+          <div>ER194[vat]</div>
+          <div>FUEL[vat]</div>
+        </td>
+        <td>RESVATE</td><td>RESVATR</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr><td>RES01</td><td>BUYER</td>
+        <td>
+          <div>CRF[base]</div>
+          <div>FOM[base]</div>
+          <div>VOM[base]</div>
+          <div>FUEL[base]</div>
+        </td>
+        <td>RESSUPE</td><td>RESSUPR</td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
     </tbody>
   </table>
-
-  <!-- Add New Button -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal">
-    Add New
-  </button>
 </div>
 
 <!-- Add New Modal -->
@@ -78,15 +124,22 @@
             </select>
           </div>  
           <div class="form-group">
-            <label for="newCharge">Charge</label>
-            <select class="form-control" id="newCharge" required>
-              <option value="CRF">CRF</option>
-              <option value="FOM">FOM</option>
-              <option value="VOM">VOM</option>
-              <option value="ER194">ER194</option>
-              <option value="FUEL">FUEL</option>
+            <label for="newCharges">Charges</label>
+
+            <select class="form-control" id="newCharges" required  multiple="multiple">
+              <option value="CRF[base]">CRF[base]</option>
+              <option value="FOM[base]">FOM[base]</option>
+              <option value="VOM[base]">VOM[base]</option>
+              <option value="ER194[base]">ER194[base]</option>
+              <option value="FUEL[base]">FUEL[base]</option>
+              <option value="CRF[vat]">CRF[vat]</option>
+              <option value="FOM[vat]">FOM[vat]</option>
+              <option value="VOM[vat]">VOM[vat]</option>
+              <option value="ER194[vat]">ER194[vat]</option>
+              <option value="FUEL[vat]">FUEL[vat]</option>
             </select>
           </div>  
+
           <div class="form-group">
             <label for="newAccountPos">Account (pos.)</label>
             <select class="form-control" id="newAccountPos" required>
@@ -100,8 +153,15 @@
               <option value="ER194E">ER194E</option>
               <option value="FUELR">FUELR</option>
               <option value="FUELE">FUELE</option>
+              <option value="VATR">VATR</option>
+              <option value="VATE">VATE</option>
+              <option value="RESSUPR">RESSUPR</option>
+              <option value="RESSUPE">RESSUPE</option>
+              <option value="RESVATR">RESVATR</option>
+              <option value="RESVATE">RESVATE</option>
             </select>
           </div>  
+
           <div class="form-group">
             <label for="newAccountNeg">Account (neg.)</label>
             <select class="form-control" id="newAccountNeg" required>
@@ -115,6 +175,12 @@
               <option value="ER194E">ER194E</option>
               <option value="FUELR">FUELR</option>
               <option value="FUELE">FUELE</option>
+              <option value="VATR">VATR</option>
+              <option value="VATE">VATE</option>
+              <option value="RESSUPR">RESSUPR</option>
+              <option value="RESSUPE">RESSUPE</option>
+              <option value="RESVATR">RESVATR</option>
+              <option value="RESVATE">RESVATE</option>
             </select>
           </div>              
           <button type="button" class="btn btn-primary" onclick="addNewEntry()">Save</button>
@@ -129,6 +195,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 
 <script src="navbar.js"></script>
 <script>
@@ -137,30 +205,26 @@
   $(document).ready(function() {
     // DataTable initialization
     table = $('#dataTable').DataTable({
-      paging: true, // Enable pagination
-      searching: true, // Enable search bar
-      columns: [
-        { title: 'Party' },
-        { title: 'Transaction Side' },
-        { title: 'Charge' },
-        { title: 'Account (Pos.)' },
-        { title: 'Account (Neg.)' },
-        { title: '' } // This is for the "Edit" button column
-      ]
+      paging: true, 
+      searching: true,      
     });
 
-    // Add New Entry button click event
+
+    $('#newCharges').select2({
+      width: '100%'
+    });
+    
     $('#addNewModal').on('shown.bs.modal', function () {
       // Clear form fields
       document.getElementById("newParty").value = "";
       document.getElementById("newSide").value = "";
-      document.getElementById("newCharge").value = "";
+      $("#newCharges").val([]).trigger('change');
       document.getElementById("newAccountPos").value = "";
       document.getElementById("newAccountNeg").value = "";
       // Enable Code field for new entry
       document.getElementById("newParty").disabled = false;
       document.getElementById("newSide").disabled = false;
-      document.getElementById("newCharge").disabled = false;
+      document.getElementById("newCharges").disabled = false;
       document.getElementById("newAccountPos").disabled = false;
       document.getElementById("newAccountNeg").disabled = false;
       // Reset edit flag
@@ -172,16 +236,20 @@
     // Get values from the form
     var newParty = document.getElementById("newParty").value;
     var newSide = document.getElementById("newSide").value;
-    var newCharge = document.getElementById("newCharge").value;
+    var newCharges =  $("#newCharges").val();
     var newAccountPos = document.getElementById("newAccountPos").value;
     var newAccountNeg = document.getElementById("newAccountNeg").value;
 
     // Validate input
-    if (!newParty || !newSide || !newCharge|| !newAccountPos|| !newAccountNeg) {
+    if (!newParty || !newSide ||$("#newCharges").val().length==0|| !newAccountPos|| !newAccountNeg) {
       alert("Please enter valid data.");
       return;
     }
 
+    var newChargesTd = []
+    $.each($("#newCharges").val(), function(index, value) {
+      newChargesTd.push(`<div>${value}</div>`);
+    });
     // Check if editing an existing entry
     var editing = document.getElementById("editRowIndex").value;
     if (editing !== "") {
@@ -189,7 +257,7 @@
       var row = table.row(parseInt(editing)).node();
       row.cells[0].innerText = newParty;
       row.cells[1].innerText = newSide;
-      row.cells[2].innerText = newCharge;
+      row.cells[2].innerText = newCharges;
       row.cells[3].innerText = newAccountPos;
       row.cells[4].innerText = newAccountNeg;
 
@@ -197,46 +265,47 @@
       document.getElementById("editRowIndex").value = "";
     } else {
       // Create a new table row
-      var newRow = table.row.add([newParty, newSide, newCharge, newAccountPos, newAccountNeg, '<button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button>']).draw().node();
+    console.log( newChargesTd.join(''))
+      var newRow = table.row.add([newParty, newSide, newChargesTd.join(''), newAccountPos, newAccountNeg, '<button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button>']).draw().node();
     }
 
     // Clear form fields
       document.getElementById("newParty").value = "";
       document.getElementById("newSide").value = "";
-      document.getElementById("newCharge").value = "";
+      document.getElementById("newCharges").value = "";
       document.getElementById("newAccountPos").value = "";
       document.getElementById("newAccountNeg").value = "";
 
     // Close the modal
     $('#addNewModal').modal('hide');
   }
-
+var xx
 
   function editEntry(button) {
   // Retrieve the DataTable instance
+  
     var table = $('#dataTable').DataTable();
     // Retrieve the values from the selected row
     var row = button.closest('tr');
     var party = row.cells[0].innerText;
     var side = row.cells[1].innerText;
-    var charge = row.cells[2].innerText;
+    var charges = row.cells[2].innerText.split('\n');
     var accountPos = row.cells[3].innerText;
     var accountNeg = row.cells[4].innerText;
 
-
+xx = row
     // Open the modal for editing
     $('#addNewModal').modal('show');
     // Set the values in the modal for editing
     document.getElementById("newParty").value = party;
     document.getElementById("newSide").value = side;
-    document.getElementById("newCharge").value = charge;
+    $("#newCharges").val(charges).trigger('change');
     document.getElementById("newAccountPos").value = accountPos;
     document.getElementById("newAccountNeg").value = accountNeg;
 
     // Set the readonly attribute for Code field
     document.getElementById("newParty").disabled = true;
     document.getElementById("newSide").disabled = true;
-    document.getElementById("newCharge").disabled = true;
 
     // Set the index of the row being edited
     document.getElementById("editRowIndex").value = table.row(row).index();

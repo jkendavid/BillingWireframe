@@ -20,8 +20,9 @@
  <div class="form-group">
    <select class="form-control" id="tableFilter" onchange="applyTableFilter()">
      <option value="">All Table</option>
-     <option value="CONTRACTS">CONTRACTS</option>
+     <option value="TEXT">TEXT</option>
      <option value="CHARGES">CHARGES</option>
+     <option value="CONTRACTS">CONTRACTS</option>
      <option value="MINDICES">MINDICES</option>
      <option value="MPLNTDATA">MPLNTDATA</option>
      <option value="STLMNTMTN">STLMNTMTN</option>
@@ -45,94 +46,143 @@
     </thead>
     <tbody>
       <tr>
+        <td>TEXT</td>
+        <td>TXT_INDICES</td>
+        <td>Indices</td>
+        <td></td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
+        <td>TEXT</td>
+        <td>TXT_PLANTDATA</td>
+        <td>Plant Data</td>
+        <td></td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
+        <td>TEXT</td>
+        <td>TXT_QUANTITIES</td>
+        <td>Quantities</td>
+        <td></td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
+        <td>TEXT</td>
+        <td>TXT_RATES</td>
+        <td>Rates</td>
+        <td></td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
+        <td>TEXT</td>
+        <td>TXT_FIXEDCHARGE</td>
+        <td>Fixed Charge</td>
+        <td></td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
+        <td>TEXT</td>
+        <td>TXT_GENERATIONCHARGE</td>
+        <td>Generation Charge</td>
+        <td></td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
         <td>CONTRACTS</td>
-        <td>MEOT</td>
+        <td>C_MEOT</td>
         <td>Minimum Offtake Energy</td>
         <td>KWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CONTRACTS</td>
-        <td>CRF</td>
+        <td>C_CRF</td>
         <td>Capital Recovery Fee</td>
         <td>PHPKW</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CONTRACTS</td>
-        <td>FOM</td>
+        <td>C_FOM</td>
         <td>Fixed O&M Fee</td>
         <td>PHPKW</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CONTRACTS</td>
-        <td>VOM</td>
+        <td>C_VOM</td>
         <td>Variable O&M Fee</td>
         <td>PHPKWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CONTRACTS</td>
-        <td>ER194</td>
+        <td>C_ER194</td>
         <td>ER-194</td>
         <td>PHPKWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CONTRACTS</td>
-        <td>NCRCPIB</td>
+        <td>C_NCRCPIB</td>
         <td>NCR CPI Base</td>
         <td>INDEX</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CONTRACTS</td>
-        <td>FOREXB</td>
+        <td>C_FOREXB</td>
         <td>FOREX Base</td>
         <td>USDPHP</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CALCVAR</td>
-        <td>EN</td>
+        <td>V_EN</td>
         <td>Energy Delivered</td>
         <td>KWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>CALCVAR</td>
-        <td>FUELRATE</td>
+        <td>V_FUELR</td>
         <td>Fuel Rate</td>
         <td>PHPKWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>MINDICES</td>
-        <td>NCRCPI</td>
+        <td>IX_NCRCPI</td>
         <td>NCR CPI</td>
         <td>INDEX</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>MINDICES</td>
-        <td>FOREX</td>
+        <td>IX_FOREX</td>
         <td>FOREX</td>
         <td>USDPHP</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>MPLNTDATA</td>
-        <td>DCP</td>
+        <td>PL_DCP</td>
         <td>Delivered Coal Price</td>
         <td>PHPMT</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>MPLNTDATA</td>
-        <td>COALCONSUME</td>
+        <td>PL_COALMT</td>
         <td>Coal Consumption</td>
         <td>MT</td>
+        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
+      </tr>
+      <tr>
+        <td>MPLNTDATA</td>
+        <td>PL_GEN</td>
+        <td>Plant Generation</td>
+        <td>kWh</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
@@ -171,29 +221,22 @@
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
-        <td>TAX</td>
-        <td>VAT</td>
-        <td>Value Added Tax</td>
-        <td>PHP</td>
-        <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
-      </tr>
-      <tr>
         <td>STLMNTMTN</td>
-        <td>PRICE</td>
+        <td>STL_PRICE</td>
         <td>Settlement Data Price</td>
         <td>PHP/KWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>STLMNTBID</td>
-        <td>BCQ</td>
+        <td>STL_BCQ</td>
         <td>Settlement Data BCQ</td>
         <td>KWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
       </tr>
       <tr>
         <td>STLMNTSEIN</td>
-        <td>MQ</td>
+        <td>STL_MQ</td>
         <td>Settlement Data Metered Quantity</td>
         <td>KWH</td>
         <td></td><td><button class="btn btn-info btn-sm" onclick="editEntry(this)">Edit</button></td>
@@ -218,16 +261,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- Form for adding new entries -->
         <form id="addEntryForm">
           <input type="hidden" id="editRowIndex" value="">          
           <div class="form-group">
             <label for="newTable">Table</label>
             <select class="form-control" id="newTable" required>
-              <option value="CONTRACTS">CONTRACTS</option>
-              <option value="CALCVAR">CALCVAR</option>
+              <option value="LABELS">LABELS</option>
               <option value="CHARGES">CHARGES</option>
-              <option value="TAX">TAX</option>
+              <option value="CONTRACTS">CONTRACTS</option>
               <option value="MINDICES">MINDICES</option>
               <option value="MPLNTDATA">MPLNTDATA</option>
               <option value="STLMNTMTN">STLMNTMTN</option>

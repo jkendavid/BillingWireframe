@@ -12,11 +12,11 @@ $('body').prepend(
                   Contract
               </a>
               <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-              <a class="dropdown-item" href="contracts.html">List</a>
+              <a class="dropdown-item" href="contracts.html">Contract List</a>
                   <a class="dropdown-item" href="parties.html">Parties</a>
-                  <a class="dropdown-item" href="contract_data.html">Variable Data</a>
-                  <a class="dropdown-item" href="contract_fieldvalues.html">Field Data</a>
-                  <a class="dropdown-item" href="contract_templates.html">Template</a>
+                  <a class="dropdown-item" href="contract_data.html">Contract Variable Data</a>
+                  <a class="dropdown-item" href="contract_fieldvalues.html">Contract Field Data</a>
+                  <a class="dropdown-item" href="contract_templates.html">Contract Template</a>
               </div>
           </li>
           <li class="nav-item dropdown">
@@ -24,9 +24,8 @@ $('body').prepend(
                   Billing
               </a>
               <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                  <a class="dropdown-item" href="billing_templates.html">Templates</a>
-                  <a class="dropdown-item" href="billing_calculations.html">Calculations</a>
-                  <a class="dropdown-item" href="billing_invoice.html">Invoice</a>
+                  <a class="dropdown-item" href="billing_templates.html">Billing Templates</a>
+                  <a class="dropdown-item" href="billing_calculations.html">Billing Calculations</a>
               </div>
           </li>
           <li class="nav-item dropdown">
@@ -34,17 +33,16 @@ $('body').prepend(
                 Configuration
             </a>
             <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                <a class="dropdown-item" href="variables.html">Variable List</a>
-                <a class="dropdown-item" href="variable_units.html">Variable Units</a>
-                <a class="dropdown-item" href="field_values.html">Field Values</a>
+                <a class="dropdown-item" href="variables.html">Variables</a>
+                <a class="dropdown-item" href="variable_units.html">Variables Units</a>
+                <a class="dropdown-item" href="field_values.html">Fields Data</a>
                 <a class="dropdown-item" href="finance_accounts.html">Finance Accounts</a>
                 <a class="dropdown-item" href="finance_account_link.html">Finance Accounts Link</a>
-                <a class="dropdown-item" href="charge_tax_mapping.html">Charge TAX Mapping</a>
             </div>
         </li>
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Data
+                  Determinants
               </a>
               <div class="dropdown-menu" aria-labelledby="servicesDropdown">
                   <a class="dropdown-item" href="variable_data_montlyindices.html">Monthly Indices</a>
