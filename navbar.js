@@ -62,7 +62,7 @@ $('body').prepend(
   </div>
 </nav>`
 )
-
+function handleUserChange() {}
 
 function Arg(name) {
     url = window.location.href;

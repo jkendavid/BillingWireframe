@@ -42,16 +42,15 @@
         <div class="mx-auto"></div>        
         <button type="button" class="btn btn-primary btn-sm" onclick="newTemplate()">Create New Template</button>
       </div>
-      <table class="table table-bordered" id="tableTemplates">
+      <table class="table table-bordered" id="tableTemplates" style="width:100% ;">
         <thead>
           <tr>
-            <th style="min-width: 120px">Code</th>
-            <th style="min-width: 200px">Description</th>
-            <th style="min-width: 100px">Status</th>
-            <th style="min-width: 100px">Update By</th>
-            <th style="min-width: 100px">Update Time</th>
-            <th>
-            </th>
+            <th>Code</th>
+            <th style="min-width: 200px;">Description</th>
+            <th>Status</th>
+            <th>Update By</th>
+            <th>Update Time</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -302,8 +301,7 @@
                     <option class="optCHARGES" value="[FOM]Fixed O&M Fee, PHP">[CH_FOM]Fixed O&M Fee, PHP</option>
                     <option class="optCHARGES" value="[VOM]Variable O&M Fee, PHP">[CH_VOM]Variable O&M Fee, PHP</option>
                     <option class="optCHARGES" value="[ER194]ER-194, PHP">[CH_ER194]ER-194, PHP</option>
-                    <option class="optCHARGES" value="[FUEL] Fuel Charge, Php">Fuel Charge, Php</option>
-                    <option class="optCALCVAR" value="[V_IX] Index,">[V_IX] Index,</option>
+                    <option class="optCHARGES" value="[FUEL] Fuel Charge, Php">[FUEL] Fuel Charge, Php</option>
                     <option class="optText" value="---Indices---">---Indices---</option>
                     <option class="optText" value="---Plant Data---">---Plant Data---</option>
                     <option class="optText" value="---Quantities---">---Quantities---</option>
@@ -352,7 +350,9 @@
 <script src="navbar.js"></script>
 
 <script>  
-  var tableTemplates = $('#tableTemplates').DataTable({});  
+  var tableTemplates = $('#tableTemplates').DataTable({
+    scrollX:true
+  });  
   var tableVariables = $('#tableVariables').DataTable({
     paging: false, // Enable pagination
     searching: false, 
@@ -471,7 +471,7 @@
     showDetails(true);
   }  
 
-  function saveTemplate(draft=false){ 
+  function saveTemplate(draft){ 
     var code = document.getElementById('templateCode').value;
     var description = document.getElementById('templateDescription').value;
     var status = document.getElementById('templateStatus').value;
@@ -492,24 +492,27 @@
         return;
       }  
       tableTemplates.row.add(
-            [`<a onclick="viewTemplate(this,true)" href ="#">${code}</a>`, description, draft?'ACTIVE':'DRAFT', getUser(), getCurrentTime(),
+            [`<a onclick="viewTemplate(this,true)" href ="#">${code}</a>`, description, draft?'DRAFT':'ACTIVE', getUser(), getCurrentTime(),
             `<button class="btn btn-info btn-sm" onclick="viewTemplate(this,false)">Edit</button>
               <button class="btn btn-info btn-sm" onclick="copyTemplate(this)">Copy</button>`
             ]).draw().node();      
     } else {
-      templateEditRow.cells[0].html = `<a onclick="viewTemplate(this,true)" href ="#">${code}</a>`;
-      templateEditRow.cells[1].innerText = description;
-      templateEditRow.cells[2].innerText = draft?'DRAFT':'ACTIVE';
-      templateEditRow.cells[3].innerText = getUser();
-      templateEditRow.cells[4].innerText = getCurrentTime();
+      var rowIndex = tableTemplates.row(templateEditRow).index();
+      var newData = tableTemplates.row(rowIndex).data();
+      newData[0] = `<a onclick="viewTemplate(this,true)" href ="#">${code}</a>`;
+      newData[1] = description;
+      newData[2] = draft?'DRAFT':'ACTIVE';
+      newData[3] = getUser();
+      newData[4] = getCurrentTime();
+      tableTemplates.row(rowIndex).data(newData).draw();
     }    
 
     dataTemplateDetails[code]={};
     dataTemplateDetails[code].variables= tableVariables.rows().data().toArray({ 'array': true });
     dataTemplateDetails[code].charges= tableCharges.rows().data().toArray({ 'array': true });
 
-    calculationControlsAuth();
     showDetails(false);
+    calculationControlsAuth();
   }  
      
   function loadDetails(template){
@@ -567,12 +570,13 @@
 
     var editing = frm.querySelector("#editRowIndex").value;
     if (editing !== "") {
-      // Update existing row
-      var row = table.row(parseInt(editing)).node();
-      row.cells[0].innerText = index;
-      row.cells[1].innerText = variable;
-      row.cells[2].innerText = formula;
-      row.cells[3].innerText = type;
+      var rowIndex = parseInt(editing);
+      var newData = table.row(rowIndex).data();
+      newData[0] = index;
+      newData[1] = variable;
+      newData[2] = formula;
+      newData[3] = type;
+      table.row(rowIndex).data(newData).draw();
     } else {    
 
       if(doesValueExistInColumn(table,0,index)){
@@ -664,13 +668,15 @@
 
     var editing = frm.querySelector("#editRowIndex").value;
     if (editing !== "") {
-      var row = table.row(parseInt(editing)).node();
-      row.cells[0].innerText = index;
-      row.cells[1].innerText = charge;
-      row.cells[2].innerText = formulab;
-      row.cells[3].innerText = formulap;
-      row.cells[4].innerText = formulaa;
-      row.cells[4].innerText = formulav;
+      var rowIndex = parseInt(editing);
+      var newData = table.row(rowIndex).data();
+      newData[0] = index;
+      newData[1] = charge;
+      newData[2] = formulab;
+      newData[3] = formulap;
+      newData[4] = formulaa;
+      newData[5] = formulav;
+      table.row(rowIndex).data(newData).draw();
     } else {
       if(doesValueExistInColumn(table,0,index)){
         alert("Index already exist.");

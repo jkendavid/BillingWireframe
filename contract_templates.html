@@ -8,6 +8,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
 
   <title>Contract Templates</title>
+  <style>   
+
+    td .btn-sm{
+      width: 80px;
+      margin: 0px 2px;
+      height: 25px;
+      font-size: 12px;
+    }  
+    .table {
+        padding: 0;
+    }
+    .table th, .table td, .table tr {
+      padding-top: 2px;
+      padding-bottom: 5px;
+      font-size: 14px;
+    }
+    .colindex {
+      width: 3px;
+    }
+    td:last-child {
+      display: flex;      
+    }
+    .btnsubmit{
+      width: 120px;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
 
@@ -16,18 +43,20 @@
   <div class="container mt-4">
 
   <h2>Contract Templates</h2>
+  <div class="row my-2">
+    <div class="mx-auto"></div>        
+    <button type="button" class="btn btn-primary" id="addNewButton" onclick="addNewModalShow()">Add New</button>
+  </div>
 
-  <!-- Table -->
   <table class="table table-bordered" id="dataTable">
     <thead>
       <tr>
-        <th>Period From</th>
-        <th>Period To</th>
         <th>Contract</th>
         <th>Index</th>
+        <th>Rev. No.</th>
         <th>Template</th>
-        <th>Rev Num</th>
-        <th>Prev Rec</th>
+        <th>Period From</th>
+        <th>Period To</th>
         <th>Status</th>
         <th>Active</th>
         <th>Remarks</th>
@@ -37,20 +66,67 @@
       </tr>
     </thead>
     <tbody>   
-        <tr><td></td><td></td><td>PSA-GENCO1-DU01-001</td><td>0</td><td>DUMAIN</td><td>0</td><td></td><td>New</td><td>No</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-        <tr><td></td><td></td><td>PSA-GENCO1-RES01-001</td><td>0</td><td>RESMAIN</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
-        <tr><td></td><td></td><td>PSA-RESO1-CC01-001</td><td>0</td><td>RETAILMAIN</td><td>0</td><td></td><td>Approved</td><td>Yes</td><td></td><td>MRKTG</td><td>2023-01-01  02:00</td><td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td></tr>
+        <tr>
+          <td>PSA-GENCO1-DU01-001</td>
+          <td>1</td>
+          <td>0</td>
+          <td>PSADU_V01.00</td>
+          <td></td><td></td>
+          <td>NEW</td>
+          <td>No</td>
+          <td></td>
+          <td>MRKTG</td>
+          <td>2023-01-01  02:00</td>
+          <td>
+            <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
+            <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
+            <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button>
+            <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
+            <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>PSA-GENCO1-RES01-001</td>
+          <td>1</td>
+          <td>0</td>
+          <td>PSARES_V01.00</td>
+          <td></td><td></td>
+          <td>APPROVED</td>
+          <td>Yes</td>
+          <td></td>
+          <td>MRKTG</td>
+          <td>2023-01-01  02:00</td>
+          <td>
+            <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
+            <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
+            <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button>
+            <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
+            <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
+          </td>
+        </tr>
+        <tr>
+          <td>PSA-RESO1-CC01-001</td>
+          <td>1</td>
+          <td>0</td>
+          <td>RSC_V01.00</td>
+          <td></td><td></td>
+          <td>APPROVED</td>
+          <td>Yes</td>
+          <td></td>
+          <td>MRKTG</td>
+          <td>2023-01-01  02:00</td>
+          <td>
+            <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
+            <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
+            <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button>
+            <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
+            <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
+          </td>
+        </tr>
       </tbody>
   </table>
-
-  <!-- Add New Button -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewModal" id="addNewButton">
-    Add New
-  </button>
 </div>
 
-<!-- Add New Modal -->
-<!-- Add New Modal -->
 <div class="modal" id="addNewModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -64,18 +140,8 @@
         <!-- Form for adding new entries -->
         <form id="addEntryForm">
           <input type="hidden" id="editRowIndex" value="">    
-          <input type="hidden" id="newRevNum" value="0">     
-          <input type="hidden" id="newPrev" value="">  
-
-          <div class="form-group">
-            <label for="newPeriodFrom">From</label>
-            <input type="month" class="form-control" id="newPeriodFrom" required>
-          </div>
-
-          <div class="form-group">
-            <label for="newPeriodTo">To</label>
-            <input type="month" class="form-control" id="newPeriodTo" required>
-          </div>
+          <input type="hidden" id="newRevNum" value="0">    
+          <input type="hidden" id="newStatus" value="0">    
 
           <div class="form-group">
             <label for="newContract">Contract*</label>
@@ -87,18 +153,28 @@
           </div>  
 
           <div class="form-group">
-            <label for="newIndex">Index</label>
+            <label for="newIndex">Index*</label>
             <input type="number" class="form-control" id="newIndex" required min="1" max="1000">
-          </div>        
+          </div>     
 
           <div class="form-group">
-            <label for="newTemplate">Type*</label>
+            <label for="newTemplate">Template*</label>
             <select class="form-control" id="newTemplate" required>
-              <option value="DUMAIN">DUMAIN</option>
-              <option value="RESMAIN">RESMAIN</option>
-              <option value="RETAILMAIN">RETAILMAIN</option>
+              <option value="PSADU_V01.00">PSADU_V01.00</option>
+              <option value="PSARES_V01.00">PSARES_V01.00</option>
+              <option value="RSC_V01.00">RSC_V01.00</option>
             </select>
           </div>         
+
+          <div class="form-group">
+            <label for="newPeriodFrom">Period From</label>
+            <input type="month" class="form-control" id="newPeriodFrom" required>
+          </div>
+
+          <div class="form-group">
+            <label for="newPeriodTo">Period To</label>
+            <input type="month" class="form-control" id="newPeriodTo" required>
+          </div>   
 
           <div class="form-group">
             <label for="newRemarks">Remarks</label>
@@ -119,237 +195,218 @@
 
 <script src="navbar.js"></script>
 <script>
-    var table; // Declare table variable globally
-    // DataTable initialization    
-    table = $('#dataTable').DataTable({
-      paging: true, // Enable pagination
-      searching: true, // Enable search bar
-      columns: [
-        { title: 'PeriodFrom' },
-        { title: 'PeriodTo' },
-        { title: 'Contract' },
-        { title: 'Index' },
-        { title: 'Template' },
-        { title: 'Rev No.' },
-        { title: 'Prev Rec' },
-        { title: 'Status' },
-        { title: 'Active' },
-        { title: 'Remarks' },
-        { title: 'Created By' },
-        { title: 'Created Time' },
-        { title: '' }, // This is for the "Edit" button column
-      ]
-    });   
-
+  var table = $('#dataTable').DataTable({
+    paging: true, 
+    searching: true, 
+    scrollX:true
+  }); 
     
-    // Add New Entry button click event
-    $('#addNewModal').on('shown.bs.modal', function () {
-      // Clear form fields
-      document.getElementById("newPeriodFrom").value = "";
-      document.getElementById("newPeriodTo").value = "";
-      document.getElementById("newContract").value = "";
-      document.getElementById("newIndex").value = 0;
-      document.getElementById("newTemplate").value = "";
-      document.getElementById("newRemarks").value = "";
-
-      // Reset edit flag
-      document.getElementById("editRowIndex").value = "";
-      document.getElementById("newRevNum").value = 0;
-      document.getElementById("newPrev").value = 0;
-
-
-      document.getElementById("newContract").disabled = false;
+  function addNewModalShow(){
+    var modal = $('#addNewModal');
+    modal.modal('show');
+  
+    modal = modal[0]
+    modal.querySelectorAll('input').forEach(function(obj) {
+      obj.value = "";
+      obj.disabled = false;
     });
+    modal.querySelectorAll('textarea').forEach(function(obj) {
+      obj.value = "";
+      obj.disabled = false;
+    });
+    modal.querySelectorAll('select').forEach(function(obj) {
+      obj.value = "";
+      obj.disabled = false;
+    });
+    modal.querySelectorAll('input[type="number"]').forEach(function(obj) {
+      obj.value = 1;
+      obj.disabled = false;
+    });
+  }
 
   function addNewEntry() {
-    // Get values from the form
     var newPeriodFrom = document.getElementById("newPeriodFrom").value;
     var newPeriodTo = document.getElementById("newPeriodTo").value;
     var newContract = document.getElementById("newContract").value;
     var newIndex = document.getElementById("newIndex").value;
     var newTemplate = document.getElementById("newTemplate").value;
     var newRemarks = document.getElementById("newRemarks").value;
-
     var newRevNum = document.getElementById("newRevNum").value;
-    var newPrev = document.getElementById("newPrev").value;
-
-    var newStatus = 'New';
+    if(newRevNum =='')newRevNum='0'
+    var newStatus = document.getElementById("newStatus").value;
+    if(newStatus =='')newStatus='NEW'
     var newActive = 'No';
-    var newCreatedBy = document.getElementById("user").value;
-    var newCreatedTime = '2023-01-01 12:10';
+    var newCreatedBy = getUser();
+    var newCreatedTime = getCurrentTime();
 
-    // Validate input
     if ( !newContract|| !newIndex|| !newTemplate) {
       alert("Please enter valid data.");
       return;
     }
 
-    // Check if editing an existing entry
     var editing = document.getElementById("editRowIndex").value;
     if (editing !== "") {
-      // Update existing row
-      var row = table.row(parseInt(editing)).node();
-      row.cells[0].innerText = newPeriodFrom;
-      row.cells[1].innerText = newPeriodTo;
-      row.cells[2].innerText = newContract;
-      row.cells[3].innerText = newIndex;
-      row.cells[4].innerText = newTemplate;
-      row.cells[5].innerText = newRevNum;
-      row.cells[6].innerText = newPrev;
-      row.cells[7].innerText = newStatus;
-      row.cells[8].innerText = newActive; // Updated to include Remarks
-      row.cells[9].innerText = newRemarks;
-      row.cells[10].innerText = newCreatedBy;
-      row.cells[11].innerText = newCreatedTime;
-      // Reset edit flag
-      document.getElementById("editRowIndex").value = "";
+      var rowIndex = parseInt(editing);
+      var newData = table.row(rowIndex).data();
+      newData[0] = newContract;
+      newData[1] = newIndex
+      newData[2] = newRevNum;
+      newData[3] = newTemplate;
+      newData[4] = newPeriodFrom;
+      newData[5] = newPeriodTo;
+      newData[6] = newStatus;
+      newData[7] = newActive;
+      newData[8] = newRemarks;
+      newData[9] = newCreatedBy;
+      newData[10] = newCreatedTime;
+      table.row(rowIndex).data(newData).draw();
+
     } else {
-      // Create a new table row
-      var newRow = table.row.add([newPeriodFrom, newPeriodTo, newContract, newIndex, newTemplate, newRevNum, newPrev, newStatus, newActive, newRemarks, newCreatedBy, newCreatedTime, 
-    '<td><button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button><button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button><button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button></td>',
-    
-    ]).draw().node();
-    }
+      for (var i = 0; i < table.rows().count(); i++) {
+        var rows = table.rows().data()[i]
+        if(rows[0]==newContract && rows[1]==newIndex && rows[2]==newRevNum && rows[6]!="REMOVED") {
+          alert(`Contract ${newContract} with Index of ${newIndex} is already exist.`);
+          return;
+        }
+      }
 
-    
-    // Clear form fields
-    var newPeriodFrom = document.getElementById("newPeriodFrom").value;
-    var newPeriodTo = document.getElementById("newPeriodTo").value;
-    var newContract = document.getElementById("newContract").value;
-    var newIndex = document.getElementById("newIndex").value;
-    var newTemplate = document.getElementById("newTemplate").value;
-    var newRemarks = document.getElementById("newRemarks").value;
-
-    // Reset edit flag
-      document.getElementById("editRowIndex").value = "";
-      document.getElementById("newRevNum").value = 0;
-      document.getElementById("newPrev").value = 0;
-
-      document.getElementById("newContract").disabled = false;
-    
+      var newRow = table.row.add([newContract, newIndex, newRevNum, newTemplate, newPeriodFrom, newPeriodTo, newStatus,  newActive, newRemarks, newCreatedBy, newCreatedTime, 
+                      `<td>
+                        <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
+                        <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
+                        <button class="btn btn-danger btn-sm removeButton" onclick="rejectEntry(this)">Remove</button></td>
+                        <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
+                        <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
+                      </td>`,
+      ]).draw().node();
+    }    
     $('#addNewModal').modal('hide');
-    handleUserChange();
+    calculationControlsAuth();
   }
 
   function editEntry(button) {
-    // Retrieve the DataTable instance
-    var table = $('#dataTable').DataTable();
-
-    // Retrieve the values from the selected row
     var row = button.closest('tr');
 
-    var periodFrom = row.cells[0].innerText;
-    var periodTo = row.cells[1].innerText;
-    var contract = row.cells[2].innerText;
-    var index = row.cells[3].innerText;
-    var template = row.cells[4].innerText;
-    var revNum = row.cells[5].innerText;
-    var prev = row.cells[6].innerText; 
-    var status = row.cells[7].innerText;
-    var remarks = row.cells[9].innerText; 
+    var contract = row.cells[0].innerText;
+    var index = row.cells[1].innerText;
+    var revNum = row.cells[2].innerText;
+    var template = row.cells[3].innerText;
+    var periodFrom = row.cells[4].innerText;
+    var periodTo = row.cells[5].innerText;
+    var status = row.cells[6].innerText;
+    var remarks = row.cells[8].innerText; 
 
-    // Open the modal for editing
-    $('#addNewModal').modal('show');
-    // Set the values in the modal for editing
-    document.getElementById("newPeriodFrom").value = periodFrom;
-    document.getElementById("newPeriodTo").value = periodTo;
+    addNewModalShow();
+
     document.getElementById("newContract").value = contract;
     document.getElementById("newIndex").value = index;
-    document.getElementById("newTemplate").value = template;
     document.getElementById("newRevNum").value = revNum;
-    document.getElementById("newPrev").value = prev;
+    document.getElementById("newPeriodFrom").value = periodFrom;
+    document.getElementById("newPeriodTo").value = periodTo;
+    document.getElementById("newTemplate").value = template;
+    document.getElementById("newStatus").value = status;
     document.getElementById("newRemarks").value = remarks;
 
-    // Set the readonly attribute for certain fields
     document.getElementById("newContract").disabled = true;
-
-    if(status=='Approved'){
-      document.getElementById("newPrev").value =table.row(row).index();      
+    document.getElementById("newIndex").disabled = true;
+    if(status=='APPROVED'){
+      //document.getElementById("newPrev").value =table.row(row).index();      
       document.getElementById("newRevNum").value = parseInt(revNum)+1;      
     } else{   
       document.getElementById("editRowIndex").value = table.row(row).index();
     }
   }
 
-  function approveEntry(button) {
-    // Display a confirmation dialog
-    var confirmation = confirm("Are you sure you want to approve this entry?");
-    
-    // If the user clicks "OK" (true), proceed with approval
-    if (confirmation) {
-        // Retrieve the values from the selected row
-        var row = $(button).closest('tr');
-        row.find('td:eq(7)').text('Approved');
-        row.find('td:eq(8)').text('Yes');
-
-        var prev = parseInt(row.find('td:eq(6)').text());
-        if (!isNaN(prev) && prev >= 0) {
-          row.prev().find('td:eq(8)').text('No');
-        }
-    }
-    handleUserChange();
-}
-
-function rejectEntry(button) {
-    // Prompt the user for remarks
-    var remarks = prompt("Please provide remarks for rejecting this entry:");
-
-    // Check if the user clicked "OK" and provided remarks
-    if (remarks !== null && remarks.trim() !== "") {
-        // Update the remarks cell in the row
+  function removeEntry(button) {
+    var confirmation = confirm("Are you sure you want to remove this entry?");
+    if (confirmation) { 
         var row = button.closest('tr');
-        row.cells[9].innerText += ' Reject remarks: ' + remarks;
-        row.cells[7].innerText = 'Decline';
+        alert(`Contract Template removed.`);
+        var rowIndex = table.row(row).index();
+        var newData = table.row(rowIndex).data();
+        newData[6] = 'REMOVED';
+        newData[7] = 'No';
 
-        // Handle any additional logic or updates as needed
-        handleUserChange();
+        table.row(rowIndex).data(newData).draw();
+        calculationControlsAuth();   
+    }
+  }
+  
+  function submitEntry(button){    
+    var remarks = prompt("Please provide remarks for submitting this entry:");
+    if (remarks !== null && remarks.trim() !== "") {      
+        var row = button.closest('tr');
+        alert(`Contract Template submitted for approval.`);
+        var rowIndex = table.row(row).index();
+        var newData = table.row(rowIndex).data();
+        newData[8] += '<div>Submit: ' + remarks + '</div>';
+        newData[6] = 'FOR APPROVAL';
+        table.row(rowIndex).data(newData).draw();
+        calculationControlsAuth();
     } else {
-        // If the user clicked "Cancel" or did not provide remarks
-        alert("You must provide remarks for rejecting this entry.");
+        alert("You must provide remarks for submitting this entry.");
+    }
+  }
+
+  function approveEntry(button) {
+    var confirmation = confirm("Are you sure you want to approve this entry?");
+    if (confirmation) { 
+        var row = button.closest('tr');
+        alert(`Contract Template approved.`);
+        var rowIndex = table.row(row).index();
+        var newData = table.row(rowIndex).data();
+
+        for (var i = 0; i < table.rows().count(); i++) {
+          var newCheckData = table.row(i).data();
+          if(newCheckData[0]==newData[0] && newCheckData[1]==newData[1]) {   
+            newCheckData[7] = 'No';
+            table.row(i).data(newCheckData); 
+          }
+        } 
+
+        newData[6] = 'APPROVED';
+        newData[7] = 'Yes';
+
+        table.row(rowIndex).data(newData).draw();
+        calculationControlsAuth();   
     }
 }
-
-
+      
+  function rejectEntry(button){    
+    var remarks = prompt("Please provide remarks for rejecting this entry:");
+    if (remarks !== null && remarks.trim() !== "") {      
+        var row = button.closest('tr');
+        alert(`Contract Template rejected.`);
+        var rowIndex = table.row(row).index();
+        var newData = table.row(rowIndex).data();
+        newData[8] += '<div>Reject: ' + remarks + '</div>';
+        newData[6] = 'REJECTED';
+        table.row(rowIndex).data(newData).draw();
+        calculationControlsAuth();
+    } else {
+        alert("You must provide remarks for submitting this entry.");
+    }
+  }
+  
+  function calculationControlsAuth(){
+    var user = getUser();
+    var trs = $('#dataTable tbody tr')
+    $.each(trs, function(i,tr){tr
+      var status = tr.cells[6].innerText;
+      var tdControls = tr.children[11]
+      tdControls.children[0].style.display = (status!="REMOVED")&&user=="MKTG"?"block":"none";
+      tdControls.children[1].style.display = (status=="NEW"||status=="RETURNED")&&user=="MKTG"?"block":"none";
+      tdControls.children[2].style.display = (status=="NEW"||status=="RETURNED")&&user=="MKTG"?"block":"none";  
+      tdControls.children[3].style.display = status=="FOR APPROVAL"&&user=="MKTGMNGR"?"block":"none";
+      tdControls.children[4].style.display = status=="FOR APPROVAL"&&user=="MKTGMNGR"?"block":"none";
+    })
+    $('#addNewButton')[0].style.display = user=="MKTG"?"block":"none";
+    table.columns.adjust().draw();
+  }
+  calculationControlsAuth();
   function handleUserChange() {
-        var userType = document.getElementById("user").value;
-        var addButton = document.getElementById("addNewButton");
-        var editButton = document.getElementsByClassName("editButton");
-        var approveButton = document.getElementsByClassName("approveButton");
-        var declineButton = document.getElementsByClassName("rejectButton");
-        // Hide or show buttons based on user type
-        if (userType === "MKTG") {
-            addButton.style.display = "block"; // Show "Add New" button
-            for (var i = 0; i < editButton.length; i++) {
-                editButton[i].style.display = "block"; // Show "Edit" buttons
-                approveButton[i].style.display = "none"; 
-                declineButton[i].style.display = "none"; 
-            }
-        } else if (userType === "MKTGMNGR") {
-            addButton.style.display = "none"; // Hide "Add New" button
-            for (var i = 0; i < editButton.length; i++) {
-                editButton[i].style.display = "none"; // Hide "Edit" buttons
-
-                if( editButton[i].closest('tr').cells[7].innerText=='New') {
-                    approveButton[i].style.display = "block"; 
-                    declineButton[i].style.display = "block"; 
-                }else{
-                  approveButton[i].style.display = "none"; 
-                  declineButton[i].style.display = "none"; 
-                }
-            }
-        }
-    }
-    handleUserChange();
-
-
-    $('#dataTable').on('draw.dt', function () {
-      handleUserChange();
-    });
-
-    function applyTemplateFilter() {
-      var contractFilter = document.getElementById("templateFilter").value;
-      table.column(0).search(contractFilter).draw();
-    }
+    calculationControlsAuth();
+  }
 </script>
 </body>
 </html>
