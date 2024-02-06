@@ -14,8 +14,8 @@ $('body').prepend(
               <div class="dropdown-menu" aria-labelledby="servicesDropdown">
               <a class="dropdown-item" href="contracts.html">Contract List</a>
                   <a class="dropdown-item" href="parties.html">Parties</a>
-                  <a class="dropdown-item" href="contract_data.html">Contract Variable Data</a>
-                  <a class="dropdown-item" href="contract_fieldvalues.html">Contract Field Data</a>
+                  <a class="dropdown-item" href="contract_variables.html">Contract Variables</a>
+                  <a class="dropdown-item" href="contract_fields.html">Contract Fields</a>
                   <a class="dropdown-item" href="contract_templates.html">Contract Template</a>
               </div>
           </li>
@@ -150,7 +150,7 @@ function RefCode(pref) {
 }
   
 function getFloat(str){
-    return  parseFloat(str.toString().replace(',', '.'));
+    return  parseFloat(str.toString().replace(/,/g, ''));
 }
 
 function nFormat(number,digit=null){
@@ -190,4 +190,24 @@ if (typeof JSON === 'undefined') {
 
 function deepCopy(obj) {
 return JSON.parse(JSON.stringify(obj));
+}
+
+
+function updateSelectOption(opt,data,all=''){
+    var value = opt.val();
+    opt.empty();
+    if(all!=''){ 
+        opt.append($('<option>', {
+            value: '',
+            text: all
+        }));
+    }
+
+    $.each(data, function(index, value) {
+        opt.append($('<option>', {
+            value: value[0],
+            text: value[0]
+        }));
+    });
+    opt.val(value);
 }

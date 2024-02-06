@@ -43,6 +43,7 @@
   <div class="container mt-4">
 
   <h2>Contract Templates</h2>
+
   <div class="row my-2">
     <div class="mx-auto"></div>        
     <button type="button" class="btn btn-primary" id="addNewButton" onclick="addNewModalShow()">Add New</button>
@@ -51,7 +52,7 @@
   <table class="table table-bordered" id="dataTable">
     <thead>
       <tr>
-        <th>Contract</th>
+        <th style="min-width: 160px;">Contract</th>
         <th>Index</th>
         <th>Rev. No.</th>
         <th>Template</th>
@@ -65,65 +66,7 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>   
-        <tr>
-          <td>PSA-GENCO1-DU01-001</td>
-          <td>1</td>
-          <td>0</td>
-          <td>PSADU_V01.00</td>
-          <td></td><td></td>
-          <td>NEW</td>
-          <td>No</td>
-          <td></td>
-          <td>MRKTG</td>
-          <td>2023-01-01  02:00</td>
-          <td>
-            <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
-            <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
-            <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button>
-            <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
-            <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
-          </td>
-        </tr>
-        <tr>
-          <td>PSA-GENCO1-RES01-001</td>
-          <td>1</td>
-          <td>0</td>
-          <td>PSARES_V01.00</td>
-          <td></td><td></td>
-          <td>APPROVED</td>
-          <td>Yes</td>
-          <td></td>
-          <td>MRKTG</td>
-          <td>2023-01-01  02:00</td>
-          <td>
-            <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
-            <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
-            <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button>
-            <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
-            <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
-          </td>
-        </tr>
-        <tr>
-          <td>PSA-RESO1-CC01-001</td>
-          <td>1</td>
-          <td>0</td>
-          <td>RSC_V01.00</td>
-          <td></td><td></td>
-          <td>APPROVED</td>
-          <td>Yes</td>
-          <td></td>
-          <td>MRKTG</td>
-          <td>2023-01-01  02:00</td>
-          <td>
-            <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
-            <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
-            <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button>
-            <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
-            <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
-          </td>
-        </tr>
-      </tbody>
+    <tbody></tbody>
   </table>
 </div>
 
@@ -145,11 +88,7 @@
 
           <div class="form-group">
             <label for="newContract">Contract*</label>
-            <select class="form-control" id="newContract" required>
-              <option value="PSA-GENCO1-DU01-001">PSA-GENCO1-DU01-001</option>
-              <option value="PSA-GENCO1-RES01-001">PSA-GENCO1-RES01-001</option>
-              <option value="PSA-RESO1-CC01-001">PSA-RESO1-CC01-001</option>
-            </select>
+            <select class="form-control" id="newContract" required></select>
           </div>  
 
           <div class="form-group">
@@ -159,11 +98,7 @@
 
           <div class="form-group">
             <label for="newTemplate">Template*</label>
-            <select class="form-control" id="newTemplate" required>
-              <option value="PSADU_V01.00">PSADU_V01.00</option>
-              <option value="PSARES_V01.00">PSARES_V01.00</option>
-              <option value="RSC_V01.00">RSC_V01.00</option>
-            </select>
+            <select class="form-control" id="newTemplate" required></select>
           </div>         
 
           <div class="form-group">
@@ -194,11 +129,33 @@
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
 <script src="navbar.js"></script>
+<script src="data.js"></script>
 <script>
+
+  var rowButtons =`<button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
+                  <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
+                  <button class="btn btn-danger btn-sm removeButton" onclick="removeEntry(this)">Remove</button></td>
+                  <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
+                  <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
+              `
+
+  function loadData(){
+    var data = []
+    $.each(dataContractTemplates, function(index, row) {
+      row.push(getUser());
+      row.push(getCurrentTime());
+      row.push(rowButtons);
+      data.push(row)
+    });
+    return data;
+  }
+
+
   var table = $('#dataTable').DataTable({
     paging: true, 
     searching: true, 
-    scrollX:true
+    scrollX:true,
+    data:loadData()
   }); 
     
   function addNewModalShow(){
@@ -265,19 +222,15 @@
       for (var i = 0; i < table.rows().count(); i++) {
         var rows = table.rows().data()[i]
         if(rows[0]==newContract && rows[1]==newIndex && rows[2]==newRevNum && rows[6]!="REMOVED") {
-          alert(`Contract ${newContract} with Index of ${newIndex} is already exist.`);
+          alert(`The following record is already exist.                  
+  Contract: ${newContract},
+  Index: ${newIndex}`);
           return;
         }
       }
 
       var newRow = table.row.add([newContract, newIndex, newRevNum, newTemplate, newPeriodFrom, newPeriodTo, newStatus,  newActive, newRemarks, newCreatedBy, newCreatedTime, 
-                      `<td>
-                        <button class="btn btn-info btn-sm editButton" onclick="editEntry(this)">Edit</button>
-                        <button class="btn btn-info btn-sm submitButton" onclick="submitEntry(this)">Submit</button>
-                        <button class="btn btn-danger btn-sm removeButton" onclick="rejectEntry(this)">Remove</button></td>
-                        <button class="btn btn-info btn-sm approveButton" onclick="approveEntry(this)">Approve</button>
-                        <button class="btn btn-danger btn-sm rejectButton" onclick="rejectEntry(this)">Reject</button>
-                      </td>`,
+                      `<td>${rowButtons}</td>`,
       ]).draw().node();
     }    
     $('#addNewModal').modal('hide');
@@ -309,9 +262,9 @@
 
     document.getElementById("newContract").disabled = true;
     document.getElementById("newIndex").disabled = true;
-    if(status=='APPROVED'){
-      //document.getElementById("newPrev").value =table.row(row).index();      
-      document.getElementById("newRevNum").value = parseInt(revNum)+1;      
+    if(status=='APPROVED'){   
+      document.getElementById("newRevNum").value = parseInt(revNum)+1;  
+      document.getElementById("newStatus").value = "";        
     } else{   
       document.getElementById("editRowIndex").value = table.row(row).index();
     }
@@ -390,10 +343,11 @@
   
   function calculationControlsAuth(){
     var user = getUser();
-    var trs = $('#dataTable tbody tr')
-    $.each(trs, function(i,tr){tr
-      var status = tr.cells[6].innerText;
-      var tdControls = tr.children[11]
+    var trs = $('#dataTable tbody tr')    
+    table.rows().every(function() {
+      var rowData = this.data();
+      var status = rowData[6];
+      var tdControls = this.node().children[11];
       tdControls.children[0].style.display = (status!="REMOVED")&&user=="MKTG"?"block":"none";
       tdControls.children[1].style.display = (status=="NEW"||status=="RETURNED")&&user=="MKTG"?"block":"none";
       tdControls.children[2].style.display = (status=="NEW"||status=="RETURNED")&&user=="MKTG"?"block":"none";  
@@ -403,10 +357,15 @@
     $('#addNewButton')[0].style.display = user=="MKTG"?"block":"none";
     table.columns.adjust().draw();
   }
+
+
   calculationControlsAuth();
   function handleUserChange() {
     calculationControlsAuth();
   }
+
+  updateSelectOption($('#newContract'),dataContract); 
+  updateSelectOption($('#newTemplate'),dataTemplates); 
 </script>
 </body>
 </html>

@@ -53,23 +53,11 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><a onclick="viewTemplate(this,true)" href ="#">PSADU_V01.00</a></td>
-            <td>PSA Template Version 1.0</td>
-            <td>DRAFT</td>
-            <td>MKTG</td>
-            <td>2024-01-01 11:32</td>
-            <td>
-              <button class="btn btn-info btn-sm btnEdit" onclick="viewTemplate(this,false)">Edit</button>
-              <button class="btn btn-info btn-sm" onclick="copyTemplate(this)">Copy</button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
 
-    <div id="templateDetails" style="display: none;">      
+    <div id="templateDetails" style="display: none; margin-bottom: 50px;">      
       <a href="#" onclick="showDetails(false)">Template List</a>
       <h2 id ='detailTitle'>New Template</h2>
       <div class="form-row mt-4">
@@ -348,10 +336,31 @@
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
 <script src="navbar.js"></script>
+<script src="data.js"></script>
 
 <script>  
+  var rowTemplateButtons =`<button class="btn btn-info btn-sm" onclick="viewTemplate(this,false)">Edit</button>
+              <button class="btn btn-info btn-sm" onclick="copyTemplate(this)">Copy</button>`
+
+  function templateCodeToALink(code){
+    return `<a onclick="viewTemplate(this,true)" href="#">${code}</a>`
+  }
+
+  function loadTemplateData(){
+    var data = []
+    $.each(dataTemplates, function(index, row) {
+      row[0]= templateCodeToALink(row[0])
+      row.push(getUser());
+      row.push(getCurrentTime());
+      row.push(rowTemplateButtons);
+      data.push(row)
+    });
+    return data;
+  }
+
   var tableTemplates = $('#tableTemplates').DataTable({
-    scrollX:true
+    scrollX:true,
+    data:loadTemplateData()
   });  
   var tableVariables = $('#tableVariables').DataTable({
     paging: false, // Enable pagination
@@ -407,8 +416,69 @@
         [3,'[FOM]Fixed O&M Fee, PHP','[C_CC]*1000','[C_CRF]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
         [4,'---Generation Charge---','','','','',chargeTableRowControl],
         [5,'[FUEL] Fuel Charge, Php','[V_EN]','[V_FUELR]','ROUND([A]*[B],2)	','[C]*[VAT]',chargeTableRowControl],
-        [6,'[VOM]Variable O&M Fee, PHP','[V_EN]','[C_VOM]-[C_ER194]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
-        [7,'[ER194]ER-194, PHP','[V_EN]','[C_ER194]','ROUND([A]*[B],2)','0',chargeTableRowControl],
+        [6,'[VOM] Variable O&M Fee, PHP','[V_EN]','[C_VOM]-[C_ER194]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
+        [7,'[ER194] ER-194, PHP','[V_EN]','[C_ER194]','ROUND([A]*[B],2)','0',chargeTableRowControl],
+      ],
+    },'PSARES_V01.00':{
+      'variables':[    
+        [1,'---Plant Data---','','Print',variableTableRowControl],
+        [2,'[PL_GEN] Plant Generation, kWh','','Print',variableTableRowControl],
+        [3,'[PL_COALMT] Coal Consumption, MT','','Print',variableTableRowControl],
+        [4,'[PL_DCP] Delivered Coal Price, Php/MT','','Print',variableTableRowControl],
+        [5,'---Quantities---','','',variableTableRowControl],
+        [6,'[STL_BCQ] Settlement Data BCQ, kWh','','Save',variableTableRowControl],
+        [7,'[V_EN] Energy Delivered, kWh','SUM([STL_BCQ])','Print',variableTableRowControl],
+        [8,'---Rates---','','',variableTableRowControl],
+        [9,'[C_VC] Variable Charge, Php/kWh','','Print',variableTableRowControl],
+        [10,'[C_ADMIN] Admin Charge, Php/kWh','','Print',variableTableRowControl],
+        [11,'[C_ER194] ER-194, Php/kWh','','Print',variableTableRowControl],
+        [12,'[V_FUELR] Fuel Rate, Php/kWh','[PL_DCP]*[PL_COALMT]/[PL_GEN]','Print',variableTableRowControl],
+      ],
+      'charges':[
+        [1,'---Generation Charge---','','','','',chargeTableRowControl],
+        [2,'[FUEL] Fuel Charge, Php','[V_EN]','[V_FUELR]','ROUND([A]*[B],2)	','[C]*[VAT]',chargeTableRowControl],
+        [3,'[VC] Variable Charge, PHP','[V_EN]','[C_VC]-[C_ER194]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
+        [4,'[ADMIN] Admin Charge, PHP','[V_EN]','[C_ADMIN]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
+        [5,'[ER194] ER-194, PHP','[V_EN]','[C_ER194]','ROUND([A]*[B],2)','0',chargeTableRowControl],
+      ],
+    },'RSC_V01.00':{
+      'variables':[    
+        [1,'---Plant Data---','','Print',variableTableRowControl],
+        [2,'[PL_GEN] Plant Generation, kWh','','Print',variableTableRowControl],
+        [3,'[PL_COALMT] Coal Consumption, MT','','Print',variableTableRowControl],
+        [4,'[PL_DCP] Delivered Coal Price, Php/MT','','Print',variableTableRowControl],
+        [5,'---Quantities---','','',variableTableRowControl],
+        [6,'[STL_MQ] Settlement MQ, kWh','','Save',variableTableRowControl],
+        [7,'[V_EN] Energy Delivered, kWh','SUM([STL_BCQ])','Print',variableTableRowControl],
+        [8,'---Rates---','','',variableTableRowControl],
+        [9,'[C_VC] Variable Charge, Php/kWh','','Print',variableTableRowControl],
+        [10,'[C_ADMIN] Admin Charge, Php/kWh','','Print',variableTableRowControl],
+        [11,'[V_FUELR] Fuel Rate, Php/kWh','[PL_DCP]*[PL_COALMT]/[PL_GEN]','Print',variableTableRowControl],
+      ],
+      'charges':[
+        [1,'---Generation Charge---','','','','',chargeTableRowControl],
+        [2,'[FUEL] Fuel Charge, Php','[V_EN]','[V_FUELR]','ROUND([A]*[B],2)	','[C]*[VAT]',chargeTableRowControl],
+        [3,'[VC] Variable Charge, PHP','[V_EN]','[C_VC]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
+        [4,'[ADMIN] Admin Charge, PHP','[V_EN]','[C_ADMIN]','ROUND([A]*[B],2)','[C]*[VAT]',chargeTableRowControl],
+        [5,'---DWSA---','','','','',chargeTableRowControl],
+        [6,'[DWSA_TRANS] Transmission Charge, PHP','[DWSA_TRANS_B]','[DWSA_TRANS_R]','[DWSA_TRANS_A]','[DWSA_TRANS_V]',chargeTableRowControl],
+        [7,'[DWSA_SYSLOSS] System Loss Charge, PHP','[DWSA_SYSLOSS_B]','[DWSA_SYSLOSS_R]','[DWSA_SYSLOSS_A]','[DWSA_SYSLOSS_V]',chargeTableRowControl],
+        [8,'[DWSA_DEMAND] Demand Charge, PHP','[DWSA_DEMAND_B]','[DWSA_DEMAND_R]','[DWSA_DEMAND_A]','[DWSA_DEMAND_V]',chargeTableRowControl],
+        [9,'[DWSA_ENERGY] Energy Charge, PHP','[DWSA_ENERGY_B]','[DWSA_ENERGY_R]','[DWSA_ENERGY_A]','[DWSA_ENERGY_V]',chargeTableRowControl],
+        [10,'[DWSA_METERING] Metering Charge, PHP','[DWSA_METERING_B]','[DWSA_METERING_R]','[DWSA_METERING_A]','[DWSA_METERING_V]',chargeTableRowControl],
+        [11,'[DWSA_SUPPLY] Supply Charge, PHP','[DWSA_SUPPLY_B]','[DWSA_SUPPLY_R]','[DWSA_SUPPLY_A]','[DWSA_SUPPLY_V]',chargeTableRowControl],
+        [12,'[DWSA_PFADJ] Power Factor Adjustment, PHP','[DDWSA_PFADJ_B]','[DWSA_PFADJ_R]','[DWSA_PFADJ_A]','[DWSA_PFADJ_V]',chargeTableRowControl],
+        [13,'[DWSA_CURPT] Current RPT, PHP','[DWSA_CURPT_B]','[DWSA_CURPT_R]','[DWSA_CURPT_A]','[DWSA_CURPT_V]',chargeTableRowControl],
+        [14,'[DWSA_LOCFRTAX] Local Franchise Tax, PHP','[DWSA_LOCFRTAX_B]','[DWSA_LOCFRTAX_R]','[DWSA_LOCFRTAX_A]','[DWSA_LOCFRTAX_V]',chargeTableRowControl],
+        [15,'[DWSA_LIFELINE] Lifeline Rate Subsidy, PHP','[DWSA_LIFELINE_B]','[DWSA_LIFELINE_R]','[DWSA_LIFELINE_A]','[DWSA_LIFELINE_V]',chargeTableRowControl],
+        [16,'[DWSA_SENIORDC] Senior Subsidy/Discount, PHP','[DWSA_SENIORDC_B]','[DWSA_SENIORDC_R]','[DWSA_SENIORDC_A]','[DWSA_SENIORDC_V]',chargeTableRowControl],
+        [17,'[DWSA_TRAC] TRAC, PHP','[DWSA_TRAC_B]','[DWSA_TRAC_R]','[DWSA_TRAC_A]','[DWSA_TRAC_V]',chargeTableRowControl],
+        [18,'[DWSA_MISSIO] Missionary, PHP','[DWSA_MISSIO_B]','[DWSA_MISSIO_R]','[DWSA_MISSIO_A]','[DWSA_MISSIO_V]',chargeTableRowControl],
+        [19,'[DWSA_ENVIR] Environmental Fund, PHP','[DWSA_ENVIR_B]','[DWSA_ENVIR_R]','[DWSA_ENVIR_A]','[DWSA_ENVIR_V]',chargeTableRowControl],
+        [20,'[DWSA_NPCSCC] NPC Stranded Contract Costs, PHP','[DWSA_NPCSCC_B]','[DWSA_NPCSCC_R]','[DWSA_NPCSCC_A]','[DWSA_NPCSCC_V]',chargeTableRowControl],
+        [21,'[DWSA_NPCDEBT] NPC Stranded Debts, PHP','[DWSA_NPCDEBT_B]','[DWSA_NPCDEBT_R]','[DWSA_NPCDEBT_A]','[DWSA_NPCDEBT_V]',chargeTableRowControl],
+        [22,'[DWSA_DUSCC] DU Stranded Contract Costs, PHP','[DWSA_DUSCC_B]','[DWSA_DUSCC_R]','[DWSA_DUSCC_A]','[DWSA_DUSCC_V]',chargeTableRowControl],
+        [23,'[DWSA_EQTAXROY] Equalization of Taxes and Royalties, PHP','[DWSA_EQTAXROY_B]','[DWSA_EQTAXROY_R]','[DWSA_EQTAXROY_A]','[DWSA_EQTAXROY_V]',chargeTableRowControl],
       ],
     }
   }
@@ -492,9 +562,8 @@
         return;
       }  
       tableTemplates.row.add(
-            [`<a onclick="viewTemplate(this,true)" href ="#">${code}</a>`, description, draft?'DRAFT':'ACTIVE', getUser(), getCurrentTime(),
-            `<button class="btn btn-info btn-sm" onclick="viewTemplate(this,false)">Edit</button>
-              <button class="btn btn-info btn-sm" onclick="copyTemplate(this)">Copy</button>`
+            [templateCodeToALink(code), description, draft?'DRAFT':'ACTIVE', getUser(), getCurrentTime(),
+            rowTemplateButtons
             ]).draw().node();      
     } else {
       var rowIndex = tableTemplates.row(templateEditRow).index();
